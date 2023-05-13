@@ -19,14 +19,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btn = findViewById(R.id.btn);
+
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn.setVisibility(View.GONE);
 
-                Fragment nfcFragment = new NFCFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, nfcFragment).commit();
+                startActivity(new Intent( getApplicationContext(),Login.class));
 
             }
         });
