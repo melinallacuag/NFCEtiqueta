@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="370sp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="10sp"
+        android:paddingEnd="10sp"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        app:layout_constraintCircleRadius="@dimen/cardview_default_radius"
+        android:backgroundTint="#FFFFFF"
+        android:background="@drawable/cardmodal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Productos"
+            android:textAlignment="center"
+            android:textSize="18sp"/>
+
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardclientes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#001E8A"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="DESCRIPCIÓN"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="7.5sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="CODIGO"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:textSize="7.5sp"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5sp"
+            android:layout_height="300sp"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerLCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnCancelarLCliente"
+                android:layout_width="wrap_content"
+                android:layout_height="50sp"
+                android:text="Cancelar"
+                android:layout_gravity="center"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:cornerRadius="10sp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
