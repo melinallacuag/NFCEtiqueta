@@ -21,6 +21,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -44,54 +45,62 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFilters;
     private String[][] techLists;
-    private TextInputEditText textViewNFC;
 
-    String nfc, placa,rucdni,razonsocial,direccion;
+    List<LProductos> lProductosList;
+    RecyclerView recyclerLProducto;
+    LProductosAdapter lProductosAdapter;
 
-    Button btnagregar;
-    TextInputEditText inputNFC, inputPlaca, inputRucDni,inputRazonSocial, inputDireccion,
-            input_DescTipoCliente, input_DescTipoRango,input_DescTipoDescuento,input_CodProducto;
-    TextInputLayout alertaNFC, alertPlaca,alertRucDni,alertRazonSocial,alertDireccion;
+    String nfc, placa,rucdni,razonsocial,codproducto,descproducto,rgInicial,rgFinal,descuentoGl,
+            descripcion_prodcuto,codigo_producto;
+
+    Button btnagregar,btncancelar;
+
+    TextInputEditText inputNFC, inputPlaca, inputRucDni,inputRazonSocial,input_CodProducto,input_DescProducto,
+                      input_DescTipoCliente, input_DescTipoRango,input_RangoInicial,input_RangoFinal,
+                      input_DescTipoDescuento,input_DescGalon;
+
+    TextInputLayout alertaNFC, alertPlaca,alertRucDni,alertRazonSocial,alertCodProducto,alertDescProducto,
+                    alertRangoInicial,alertRangoFinal,alertDescGalon;
 
     Spinner SpinnerTCliente,SpinnerTRango,SpinnerTDescuento;
 
-    Dialog modalCliente;
+    Dialog modalProducto;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_n_f_c, container, false);
 
-        textViewNFC = view.findViewById(R.id.input_EtiquetaNFC);
         btnagregar  = view.findViewById(R.id.btnAgregar);
-
-        inputNFC          = view.findViewById(R.id.input_EtiquetaNFC);
-        inputPlaca        = view.findViewById(R.id.input_Placa);
-        inputRucDni       = view.findViewById(R.id.input_ruc_dni);
-        inputRazonSocial  = view.findViewById(R.id.input_RazonSocial);
-
-        input_CodProducto = view.findViewById(R.id.input_CodProducto);
-
 
         alertaNFC         = view.findViewById(R.id.textNFC);
         alertPlaca        = view.findViewById(R.id.textPlaca);
         alertRucDni       = view.findViewById(R.id.text_RUC_DNI);
         alertRazonSocial  = view.findViewById(R.id.text_RazonSocial);
+        alertCodProducto  = view.findViewById(R.id.text_CodProducto);
+        alertDescProducto = view.findViewById(R.id.text_DescProducto);
+        alertRangoInicial = view.findViewById(R.id.text_RangoInicial);
+        alertRangoFinal   = view.findViewById(R.id.text_RangoFinal);
+        alertDescGalon    = view.findViewById(R.id.text_DescGalon);
 
-
-        /**
-         * Spinner Cliente - Rango - Descuento
-         */
+        inputNFC                = view.findViewById(R.id.input_EtiquetaNFC);
+        inputPlaca              = view.findViewById(R.id.input_Placa);
+        inputRucDni             = view.findViewById(R.id.input_ruc_dni);
+        inputRazonSocial        = view.findViewById(R.id.input_RazonSocial);
+        input_CodProducto       = view.findViewById(R.id.input_CodProducto);
+        input_DescProducto      = view.findViewById(R.id.input_DescProducto);
+        input_DescTipoCliente   = view.findViewById(R.id.input_DescTipoCliente);
+        input_DescTipoRango     = view.findViewById(R.id.input_DescTipoRango);
+        input_RangoInicial      = view.findViewById(R.id.input_RangoInicial);
+        input_RangoFinal        = view.findViewById(R.id.input_RangoFinal);
+        input_DescTipoDescuento = view.findViewById(R.id.input_DescTipoDescuento);
+        input_DescGalon         = view.findViewById(R.id.input_DescGalon);
 
         SpinnerTCliente   = view.findViewById(R.id.SpinnerTCliente);
         SpinnerTRango     = view.findViewById(R.id.SpinnerTRango);
         SpinnerTDescuento = view.findViewById(R.id.SpinnerTDescuento);
 
-        input_DescTipoCliente  = view.findViewById(R.id.input_DescTipoCliente);
-        input_DescTipoRango = view.findViewById(R.id.input_DescTipoRango);
-        input_DescTipoDescuento = view.findViewById(R.id.input_DescTipoDescuento);
-
-        textViewNFC.setKeyListener(null);
+        inputNFC.setKeyListener(null);
 
         // Initialize NFC adapter
         nfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
@@ -117,9 +126,16 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 placa        = inputPlaca.getText().toString();
                 rucdni       = inputRucDni.getText().toString();
                 razonsocial  = inputRazonSocial.getText().toString();
-                direccion    = inputDireccion.getText().toString();
+                codproducto  = input_CodProducto.getText().toString();
+                descproducto = input_DescProducto.getText().toString();
+                rgInicial    = input_RangoInicial.getText().toString();
+                rgFinal      = input_RangoFinal.getText().toString();
+                descuentoGl  = input_DescGalon.getText().toString();
 
-                if(placa.isEmpty()){
+                if(nfc.isEmpty()){
+                    alertaNFC.setError("El campo NFC es obligatorio");
+                    return;
+                }if(placa.isEmpty()){
                     alertPlaca.setError("El campo Placa es obligatorio");
                     return;
                 }else if(rucdni.isEmpty()){
@@ -128,11 +144,20 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 } else if(razonsocial.isEmpty()){
                     alertRazonSocial.setError("El campo Razon Social es obligatorio");
                     return;
-                }else if(direccion.isEmpty()){
-                    alertDireccion.setError("El campo Dirección es obligatorio");
+                }else if(codproducto.isEmpty()){
+                    alertCodProducto.setError("El campo Cod. Producto es obligatorio");
                     return;
-                }else if(nfc.isEmpty()){
-                    alertaNFC.setError("El campo NFC es obligatorio");
+                }else if(descproducto.isEmpty()){
+                    alertDescProducto.setError("El campo descripción es obligatorio");
+                    return;
+                }else if(rgInicial.isEmpty()){
+                    alertRangoInicial.setError("El campo Rango Inicial es obligatorio");
+                    return;
+                }else if(rgFinal.isEmpty()){
+                    alertRangoFinal.setError("El campo Rango Final es obligatorio");
+                    return;
+                }else if(descuentoGl.isEmpty()){
+                    alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
                     return;
                 }
 
@@ -140,7 +165,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 alertPlaca.setErrorEnabled(false);
                 alertRucDni.setErrorEnabled(false);
                 alertRazonSocial.setErrorEnabled(false);
-                alertDireccion.setErrorEnabled(false);
+                alertCodProducto.setErrorEnabled(false);
+                alertDescProducto.setErrorEnabled(false);
+                alertRangoInicial.setErrorEnabled(false);
+                alertRangoFinal.setErrorEnabled(false);
+                alertDescGalon.setErrorEnabled(false);
 
                 Toast.makeText(getContext(), "Se guardo correctamente", Toast.LENGTH_SHORT).show();
 
@@ -148,22 +177,66 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 inputPlaca.setText("000-0000");
                 inputRucDni.getText().clear();
                 inputRazonSocial.getText().clear();
-                inputDireccion.getText().clear();
-
+                input_CodProducto.getText().clear();
+                input_DescProducto.getText().clear();
+                input_RangoInicial.setText("0.000");
+                input_RangoFinal.setText("0.000");
+                input_DescGalon.setText("0.00");
             }
         });
 
-        modalCliente = new Dialog(getContext());
-        modalCliente.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        modalCliente.setContentView(R.layout.list_productos);
-        modalCliente.setCancelable(false);
+        modalProducto = new Dialog(getContext());
+        modalProducto.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        modalProducto.setContentView(R.layout.list_productos);
+        modalProducto.setCancelable(false);
 
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
 
-                modalCliente.show();
+                btncancelar  = modalProducto.findViewById(R.id.btnCancelarLProductos);
 
+                modalProducto.show();
+
+                recyclerLProducto = modalProducto.findViewById(R.id.recyclerLProducto);
+                recyclerLProducto.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+                lProductosList = new ArrayList<>();
+
+                for (int i = 0; i < 1; i++){
+                    lProductosList.add(new LProductos("G-PREMIUM","93"));
+                    lProductosList.add(new LProductos("G-REGULAR","92"));
+                    lProductosList.add(new LProductos("DIESEL DB5","05"));
+                    lProductosList.add(new LProductos("GLP","09"));
+                }
+
+                lProductosAdapter = new LProductosAdapter(lProductosList, getContext(), new LProductosAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(LProductos item) {
+
+                        descripcion_prodcuto = item.getDescripcion();
+                        codigo_producto = item.getCodigo();
+
+                        input_DescProducto.setText(descripcion_prodcuto);
+                        input_CodProducto.setText(codigo_producto);
+
+                        modalProducto.dismiss();
+                    }
+                });
+
+
+                recyclerLProducto.setAdapter(lProductosAdapter);
+                recyclerLProducto.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                btncancelar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        modalProducto.dismiss();
+
+                    }
+                });
 
                 return true;
             }
@@ -203,11 +276,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 TipoCliente tipoCliente = (TipoCliente) parent.getItemAtPosition(position);
                 String descripcionCliente = tipoCliente.getDescripcion();
                 if (tipoCliente.getTipocliente().equals("CON")) {
-                    // Mostrar campo de entrada para "Contado"
+
                     input_DescTipoCliente.setText(descripcionCliente);
 
                 } else if (tipoCliente.getTipocliente().equals("DES")) {
-                    // Mostrar campo de entrada para "Descuento"
+
                     input_DescTipoCliente.setText(descripcionCliente);
 
                 }
@@ -277,11 +350,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 TipoDescuento tipoDescuento = (TipoDescuento) parent.getItemAtPosition(position);
                 String descripcionDescuento = tipoDescuento.getDescripcion();
                 if (tipoDescuento.getTipodescuento().equals("DES")) {
-                    // Mostrar campo de entrada para "Contado"
+
                     input_DescTipoDescuento.setText(descripcionDescuento);
 
                 } else if (tipoDescuento.getTipodescuento().equals("PFIJO")) {
-                    // Mostrar campo de entrada para "Descuento"
+
                     input_DescTipoDescuento.setText(descripcionDescuento);
 
                 }
@@ -289,7 +362,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No se seleccionó ningún elemento
+
             }
         });
 
@@ -320,7 +393,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                textViewNFC.setText(nfcTag);
+                inputNFC.setText(nfcTag);
             }
         });
     }

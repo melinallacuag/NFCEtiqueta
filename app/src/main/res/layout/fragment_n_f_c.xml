@@ -42,10 +42,10 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_EtiquetaNFC"
-                    android:textSize="12sp"
-                    android:focusable="false"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +71,7 @@
                     android:layout_height="wrap_content"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -248,17 +249,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
-                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#E4E4E4"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:boxCornerRadiusBottomEnd="15dp"
                     app:boxCornerRadiusTopEnd="15dp"
-                    android:layout_marginBottom="5sp"
-                    app:endIconMode="clear_text"
-                    android:layout_weight="1">
+                    android:allowClickWhenDisabled="true"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="5sp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_DescTipoCliente"
                         android:textSize="12sp"
+                        android:focusable="false"
                         android:inputType="textCapCharacters"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -309,6 +311,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
                     app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#E4E4E4"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:boxCornerRadiusBottomEnd="15dp"
                     app:boxCornerRadiusTopEnd="15dp"
@@ -319,6 +322,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_DescTipoRango"
                         android:textSize="12sp"
+                        android:focusable="false"
                         android:inputType="textCapCharacters"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
@@ -423,6 +427,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Descripción"
+                    app:boxBackgroundColor="#E4E4E4"
                     app:boxBackgroundMode="outline"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:boxCornerRadiusBottomEnd="15dp"
@@ -435,6 +440,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_DescTipoDescuento"
                         android:textSize="12sp"
+                        android:focusable="false"
                         android:inputType="textCapCharacters"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>

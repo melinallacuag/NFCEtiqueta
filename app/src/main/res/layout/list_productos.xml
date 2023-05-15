@@ -24,8 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Productos"
+            android:text="Lista de Productos"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="18sp"/>
 
 
@@ -69,10 +70,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginTop="5sp"
-            android:layout_height="300sp"
+            android:layout_marginBottom="10sp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerLCliente"
+                android:id="@+id/recyclerLProducto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -82,7 +84,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/btnCancelarLCliente"
+                android:id="@+id/btnCancelarLProductos"
                 android:layout_width="wrap_content"
                 android:layout_height="50sp"
                 android:text="Cancelar"
