@@ -300,7 +300,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         for (int i = 0; i < 1; i++){
             tipoRangoList.add(new TipoRango("GLN","RANGO POR GALONES"));
-            tipoRangoList.add(new TipoRango("SOLES","RANGO"));
+            tipoRangoList.add(new TipoRango("SOLES","RANGO POR SOLES"));
         }
 
         Resources resTRango = getResources();
