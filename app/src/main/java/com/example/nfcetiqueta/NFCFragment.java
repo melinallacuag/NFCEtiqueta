@@ -208,7 +208,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     lProductosList.add(new LProductos("G-PREMIUM","93"));
                     lProductosList.add(new LProductos("G-REGULAR","92"));
                     lProductosList.add(new LProductos("DIESEL DB5","05"));
-                    lProductosList.add(new LProductos("GLP","09"));
+                    lProductosList.add(new LProductos("GLP","07"));
                 }
 
                 lProductosAdapter = new LProductosAdapter(lProductosList, getContext(), new LProductosAdapter.OnItemClickListener() {
@@ -262,7 +262,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         for (int i = 0; i < 1; i++){
             tipoClienteList.add(new TipoCliente("CON","FACTURA/BOLETA"));
-            tipoClienteList.add(new TipoCliente("DES","FACTURA/NOTA DESPACHO"));
+            tipoClienteList.add(new TipoCliente("CRE","FACTURA/NOTA DESPACHO"));
         }
 
         Resources resTCliente = getResources();
@@ -279,7 +279,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                     input_DescTipoCliente.setText(descripcionCliente);
 
-                } else if (tipoCliente.getTipocliente().equals("DES")) {
+                } else if (tipoCliente.getTipocliente().equals("CRE")) {
 
                     input_DescTipoCliente.setText(descripcionCliente);
 
@@ -300,7 +300,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         for (int i = 0; i < 1; i++){
             tipoRangoList.add(new TipoRango("GLN","RANGO POR GALONES"));
-            tipoRangoList.add(new TipoRango("SOLES","RANGO POR SOLES"));
+            tipoRangoList.add(new TipoRango("MTO","RANGO POR MONTO"));
         }
 
         Resources resTRango = getResources();
@@ -316,7 +316,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     // Mostrar campo de entrada para "Contado"
                     input_DescTipoRango.setText(descripcionRango);
 
-                } else if (tipoRango.getTiporango().equals("SOLES")) {
+                } else if (tipoRango.getTiporango().equals("MTO")) {
                     // Mostrar campo de entrada para "Descuento"
                     input_DescTipoRango.setText(descripcionRango);
 
@@ -337,7 +337,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         for (int i = 0; i < 1; i++){
             tipoDescuentoList.add(new TipoDescuento("DES","MONTO DESCUENTO"));
-            tipoDescuentoList.add(new TipoDescuento("PFIJO","PAGO FIJO"));
+            tipoDescuentoList.add(new TipoDescuento("PRE","PRECIO FIJO"));
         }
 
         Resources resTDescuento = getResources();
@@ -353,7 +353,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                     input_DescTipoDescuento.setText(descripcionDescuento);
 
-                } else if (tipoDescuento.getTipodescuento().equals("PFIJO")) {
+                } else if (tipoDescuento.getTipodescuento().equals("PRE")) {
 
                     input_DescTipoDescuento.setText(descripcionDescuento);
 
