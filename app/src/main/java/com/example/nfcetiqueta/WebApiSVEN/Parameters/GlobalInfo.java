@@ -2,6 +2,7 @@ package com.example.nfcetiqueta.WebApiSVEN.Parameters;
 
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
@@ -16,6 +17,7 @@ public class GlobalInfo {
     public static List<TipoDescuento> gettipodescuentoList10;
     public static List<LProductos>    getproductosList10;
     public static List<LClientes>     getlistaclienteList10;
+    public static List<LCompany>      getlistacompanyList10;
 
     /**
      * Datos del Campo User - Usuario

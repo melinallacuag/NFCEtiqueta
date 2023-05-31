@@ -3,13 +3,19 @@ package com.example.nfcetiqueta;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nfcetiqueta.Adapter.LCompanyAdapter;
+import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
@@ -19,6 +25,7 @@ import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +41,10 @@ public class Login extends AppCompatActivity {
     TextInputLayout alertUser,alertPassword;
     String usuarioUser,contraseñaUser;
 
+    LCompanyAdapter lCompanyAdapter;
+
+    Spinner SpinnerCompany;
+
     private APIService mAPIService;
 
     @Override
@@ -48,6 +59,8 @@ public class Login extends AppCompatActivity {
         inputContraseña     = findViewById(R.id.contraseña);
         alertUser           = findViewById(R.id.textusuario);
         alertPassword       = findViewById(R.id.textcontraseña);
+
+        SpinnerCompany      = findViewById(R.id.SpinnerCompany);
 
         btnIniciarLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,10 +90,59 @@ public class Login extends AppCompatActivity {
         });
 
         /** Mostrar el listado de Datos */
+        getCompany();
         getListProductos();
         getTipoCliente();
         getTipoRango();
         getTipoDescuento();
+    }
+
+    /** API SERVICE - Empresa */
+    private void getCompany(){
+
+        Call<List<LCompany>> call = mAPIService.getCompany();
+
+        call.enqueue(new Callback<List<LCompany>>() {
+            @Override
+            public void onResponse(Call<List<LCompany>> call, Response<List<LCompany>> response) {
+
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.getlistacompanyList10 = response.body();
+
+                    /**
+                     *  Seleccionar Tipo de Company
+                     */
+
+                    Resources resTCompany = getResources();
+                    lCompanyAdapter = new LCompanyAdapter(getApplicationContext(), R.layout.itemcompany, (ArrayList<LCompany>) GlobalInfo.getlistacompanyList10, resTCompany);
+                    SpinnerCompany.setAdapter(lCompanyAdapter);
+
+                    SpinnerCompany.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LCompany>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /** API SERVICE - Users */
