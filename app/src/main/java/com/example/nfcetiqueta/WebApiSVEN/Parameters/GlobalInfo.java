@@ -20,6 +20,14 @@ public class GlobalInfo {
     public static List<LCompany>      getlistacompanyList10;
 
     /**
+     * Datos de la Empresa
+     */
+    public static String getNameCompany10;
+    public static String getBranchCompany10;
+    public static String getSloganCompany10;
+
+
+    /**
      * Datos del Campo User - Usuario
      */
     public static String  getuserID10;

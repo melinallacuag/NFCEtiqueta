@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.nfcetiqueta.Fragment.Dasboard;
 import com.example.nfcetiqueta.Fragment.NFCFragment;
 
 public class Menu extends AppCompatActivity {
@@ -14,7 +15,7 @@ public class Menu extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new NFCFragment()).commit();
+                .replace(R.id.fragment_container, new Dasboard()).commit();
     }
     @Override
     public void onBackPressed() {
@@ -23,7 +24,7 @@ public class Menu extends AppCompatActivity {
             getSupportFragmentManager().popBackStack();
         } else {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new NFCFragment()).commit();
+                    .replace(R.id.fragment_container, new Dasboard()).commit();
         }
 
     }
