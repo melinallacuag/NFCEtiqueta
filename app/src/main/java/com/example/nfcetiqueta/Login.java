@@ -23,12 +23,15 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
-    Button btn;
-    TextInputEditText usuario, contraseña;
-    TextInputLayout alertuser,alertpassword;
-    String usuarioUser,contraseñaUser;
-    TextView imeii;
     List<Users> usersList;
+
+    Button btnIniciarLogin;
+    TextInputEditText inputUsuario, inputContraseña;
+    TextInputLayout alertUser,alertPassword;
+    String usuarioUser,contraseñaUser;
+
+    TextView imeii;
+
     private APIService mAPIService;
 
     @Override
@@ -38,44 +41,44 @@ public class Login extends AppCompatActivity {
 
         mAPIService = GlobalInfo.getAPIService();
 
-        btn            = findViewById(R.id.btnlogin);
-        usuario        = findViewById(R.id.usuario);
-        contraseña     = findViewById(R.id.contraseña);
-        alertuser      = findViewById(R.id.textusuario);
-        alertpassword  = findViewById(R.id.textcontraseña);
-        imeii          = findViewById(R.id.imei);
+        btnIniciarLogin     = findViewById(R.id.btnlogin);
+        inputUsuario        = findViewById(R.id.usuario);
+        inputContraseña     = findViewById(R.id.contraseña);
+        alertUser           = findViewById(R.id.textusuario);
+        alertPassword       = findViewById(R.id.textcontraseña);
+        imeii               = findViewById(R.id.imei);
 
         imeii.setText(ObtenerIMEI.getDeviceId(getApplicationContext()));
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btnIniciarLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                usuarioUser    = usuario.getText().toString();
-                contraseñaUser = contraseña.getText().toString();
+                usuarioUser    = inputUsuario.getText().toString();
+                contraseñaUser = inputContraseña.getText().toString();
 
                 if(usuarioUser.isEmpty()){
-                    alertuser.setError("El campo usuario es obligatorio");
+                    alertUser.setError("El campo usuario es obligatorio");
                     return;
                 }else if(contraseñaUser.isEmpty()){
-                    alertpassword.setError("El campo contraseña es obligatorio");
+                    alertPassword.setError("El campo contraseña es obligatorio");
                     return;
                 }
 
-                alertuser.setErrorEnabled(false);
-                alertpassword.setErrorEnabled(false);
+                alertUser.setErrorEnabled(false);
+                alertPassword.setErrorEnabled(false);
 
                 GlobalInfo.getuserID10 = "";
                 GlobalInfo.getuserName10 = "";
                 GlobalInfo.getuserPass10 = "";
 
-                findUsers(usuario.getText().toString());
+                findUsers(inputUsuario.getText().toString());
 
             }
         });
     }
 
-    /** API SERVICE - Usuarios */
+    /** API SERVICE - Users */
     private void findUsers(String id){
 
         Call<List<Users>> call = mAPIService.findUsers(id);
@@ -95,7 +98,7 @@ public class Login extends AppCompatActivity {
 
                     for(Users user: usersList) {
 
-                        usuario.setText(user.getUserID());
+                        inputUsuario.setText(user.getUserID());
                         GlobalInfo.getuserID10 = user.getUserID();
                         GlobalInfo.getuserName10 = user.getNames();
                         GlobalInfo.getuserPass10  = user.getPassword();
@@ -107,8 +110,8 @@ public class Login extends AppCompatActivity {
                         Toast.makeText( getApplicationContext(), "El usuario se encuentra bloqueado", Toast.LENGTH_SHORT).show();
                     }else {
 
-                        String getName = usuario.getText().toString();
-                        String getPass = checkpassword(contraseña.getText().toString());
+                        String getName = inputUsuario.getText().toString();
+                        String getPass = checkpassword(inputContraseña.getText().toString());
 
                         if( getName.equals(GlobalInfo.getuserName10)  || getPass.equals(GlobalInfo.getuserPass10)){
 
