@@ -80,6 +80,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        /** Mostrar el listado de Datos */
         getTipoCliente();
         getTipoRango();
         getTipoDescuento();
@@ -204,6 +205,7 @@ public class Login extends AppCompatActivity {
 
     /** Spinner de Tipo de Cliente */
     private void getTipoCliente(){
+
         Call<List<TipoCliente>> call = mAPIService.getTipoCliente();
 
         call.enqueue(new Callback<List<TipoCliente>>() {
@@ -232,6 +234,7 @@ public class Login extends AppCompatActivity {
 
     /** Spinner de Tipo de Rango */
     private void getTipoRango(){
+
         Call<List<TipoRango>> call = mAPIService.getTipoRango();
 
         call.enqueue(new Callback<List<TipoRango>>() {
@@ -260,6 +263,7 @@ public class Login extends AppCompatActivity {
 
     /** Spinner de Tipo de Descuento */
     private void getTipoDescuento(){
+
         Call<List<TipoDescuento>> call = mAPIService.getTipoDescuento();
 
         call.enqueue(new Callback<List<TipoDescuento>>() {

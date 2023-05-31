@@ -5,10 +5,6 @@ public class TipoCliente {
     private String id;
     private String descripcion;
 
-    public TipoCliente(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public String getId() {
         return id;
     }

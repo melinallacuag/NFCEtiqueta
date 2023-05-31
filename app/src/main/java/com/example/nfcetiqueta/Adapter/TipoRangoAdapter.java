@@ -25,10 +25,10 @@ public class TipoRangoAdapter extends ArrayAdapter<TipoRango> {
 
     public TipoRangoAdapter(@NonNull Context context, int textViewResourceId, ArrayList<TipoRango> tipoRangos, Resources resLocal) {
         super(context, textViewResourceId, tipoRangos);
-        this.context = context;
-        this.tipoRangos    = tipoRangos;
-        this.res     = resLocal;
-        inflater      = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context     = context;
+        this.tipoRangos  = tipoRangos;
+        this.res         = resLocal;
+        inflater         = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
     @Override

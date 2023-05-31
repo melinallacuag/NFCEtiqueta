@@ -25,10 +25,10 @@ public class TipoDescuentoAdapter extends ArrayAdapter<TipoDescuento> {
 
     public TipoDescuentoAdapter(@NonNull Context context, int textViewResourceId, ArrayList<TipoDescuento> tipoDescuentos, Resources resLocal) {
         super(context, textViewResourceId, tipoDescuentos);
-        this.context = context;
-        this.tipoDescuentos    = tipoDescuentos;
-        this.res     = resLocal;
-        inflater      = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context         = context;
+        this.tipoDescuentos  = tipoDescuentos;
+        this.res             = resLocal;
+        inflater             = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
     @Override
