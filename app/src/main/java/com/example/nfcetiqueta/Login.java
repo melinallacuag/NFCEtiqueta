@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.Users;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 import com.google.android.material.textfield.TextInputEditText;
@@ -76,6 +77,8 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
+        getTipoCliente();
     }
 
     /** API SERVICE - Users */
@@ -195,4 +198,31 @@ public class Login extends AppCompatActivity {
         return lResult;
     }
 
+    /** Spinner de Tipo de Cliente */
+    private void getTipoCliente(){
+        Call<List<TipoCliente>> call = mAPIService.getTipoCliente();
+
+        call.enqueue(new Callback<List<TipoCliente>>() {
+            @Override
+            public void onResponse(Call<List<TipoCliente>> call, Response<List<TipoCliente>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.gettipoclienteList10 = response.body();
+
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TipoCliente>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

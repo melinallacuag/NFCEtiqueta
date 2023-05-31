@@ -1,8 +1,13 @@
 package com.example.nfcetiqueta.WebApiSVEN.Parameters;
 
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
+
+import java.util.List;
 
 public class GlobalInfo {
+
+    public  static List<TipoCliente> gettipoclienteList10;
 
     /**
      * Datos del Campo User - Usuario

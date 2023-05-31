@@ -36,11 +36,13 @@ import com.example.nfcetiqueta.Adapter.LProductosAdapter;
 import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
 import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
+import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.R;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
+import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -53,6 +55,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     private PendingIntent pendingIntent;
     private IntentFilter[] intentFilters;
     private String[][] techLists;
+
+    TipoCliente tipoCliente;
+    TipoClienteAdapter tipoClienteAdapter;
 
     List<LProductos> lProductosList;
     RecyclerView recyclerLProducto;
@@ -74,10 +79,14 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     Dialog modalProducto;
 
+    private APIService mAPIService;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_n_f_c, container, false);
+
+        mAPIService = GlobalInfo.getAPIService();
 
         btnagregar  = view.findViewById(R.id.btnAgregar);
 
@@ -263,31 +272,24 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         /**
-         *  Tipo de Cliente
+         *  Seleccionar Tipo de Cliente
          */
 
-        List<TipoCliente> tipoClienteList = new ArrayList<>();
-
-        for (int i = 0; i < 1; i++){
-            tipoClienteList.add(new TipoCliente("CON","FACTURA/BOLETA"));
-            tipoClienteList.add(new TipoCliente("CRE","FACTURA/NOTA DESPACHO"));
-        }
-
         Resources resTCliente = getResources();
-        TipoClienteAdapter tipoClienteAdapter = new TipoClienteAdapter(getContext(), R.layout.itemcliente, (ArrayList<TipoCliente>) tipoClienteList, resTCliente);
+        tipoClienteAdapter = new TipoClienteAdapter(getContext(), R.layout.itemcliente, (ArrayList<TipoCliente>) GlobalInfo.gettipoclienteList10, resTCliente);
         SpinnerTCliente.setAdapter(tipoClienteAdapter);
-
 
         SpinnerTCliente.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoCliente tipoCliente = (TipoCliente) parent.getItemAtPosition(position);
+
+               TipoCliente tipoCliente = (TipoCliente) parent.getItemAtPosition(position);
                 String descripcionCliente = tipoCliente.getDescripcion();
-                if (tipoCliente.getTipocliente().equals("CON")) {
+                if (tipoCliente.getId().equals("CON")) {
 
                     input_DescTipoCliente.setText(descripcionCliente);
 
-                } else if (tipoCliente.getTipocliente().equals("CRE")) {
+                } else if (tipoCliente.getId().equals("CRE")) {
 
                     input_DescTipoCliente.setText(descripcionCliente);
 
@@ -296,7 +298,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No se seleccionó ningún elemento
             }
         });
 

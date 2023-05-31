@@ -16,6 +16,7 @@ import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import java.util.ArrayList;
 
 public class TipoClienteAdapter extends ArrayAdapter<TipoCliente> {
+
     private Context context;
     private ArrayList<TipoCliente> tipoClientes;
     public Resources res;
@@ -24,10 +25,10 @@ public class TipoClienteAdapter extends ArrayAdapter<TipoCliente> {
 
     public TipoClienteAdapter(@NonNull Context context, int textViewResourceId, ArrayList<TipoCliente> tipoClientes, Resources resLocal) {
         super(context, textViewResourceId, tipoClientes);
-        this.context = context;
-        this.tipoClientes    = tipoClientes;
-        this.res     = resLocal;
-        inflater      = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context       = context;
+        this.tipoClientes  = tipoClientes;
+        this.res           = resLocal;
+        inflater           = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
     @Override
@@ -51,7 +52,7 @@ public class TipoClienteAdapter extends ArrayAdapter<TipoCliente> {
         currRowVal = (TipoCliente) tipoClientes.get(position);
         TextView label = (TextView) row.findViewById(R.id.spinnerItemCliente);
 
-        label.setText(currRowVal.getTipocliente());
+        label.setText(currRowVal.getId());
 
         return row;
     }
