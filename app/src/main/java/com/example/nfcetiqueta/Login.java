@@ -34,8 +34,6 @@ public class Login extends AppCompatActivity {
     TextInputLayout alertUser,alertPassword;
     String usuarioUser,contraseñaUser;
 
-    TextView imeii;
-
     private APIService mAPIService;
 
     @Override
@@ -50,9 +48,6 @@ public class Login extends AppCompatActivity {
         inputContraseña     = findViewById(R.id.contraseña);
         alertUser           = findViewById(R.id.textusuario);
         alertPassword       = findViewById(R.id.textcontraseña);
-        imeii               = findViewById(R.id.imei);
-
-        imeii.setText(ObtenerIMEI.getDeviceId(getApplicationContext()));
 
         btnIniciarLogin.setOnClickListener(new View.OnClickListener() {
             @Override

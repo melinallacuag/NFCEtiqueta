@@ -108,17 +108,6 @@
             app:cornerRadius="10sp"/>
 
         <TextView
-            android:id="@+id/imei"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:textAllCaps="true"
-            android:textSize="15sp"
-            android:textColor="#1E242B"
-            android:textAlignment="center"
-           />
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20sp"
