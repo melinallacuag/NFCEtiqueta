@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
 import com.example.nfcetiqueta.WebApiSVEN.Models.Users;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 import com.google.android.material.textfield.TextInputEditText;
@@ -79,6 +80,7 @@ public class Login extends AppCompatActivity {
         });
 
         getTipoCliente();
+        getTipoRango();
     }
 
     /** API SERVICE - Users */
@@ -221,6 +223,34 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<TipoCliente>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /** Spinner de Tipo de Rango */
+    private void getTipoRango(){
+        Call<List<TipoRango>> call = mAPIService.getTipoRango();
+
+        call.enqueue(new Callback<List<TipoRango>>() {
+            @Override
+            public void onResponse(Call<List<TipoRango>> call, Response<List<TipoRango>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.gettiporangoList10 = response.body();
+
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TipoRango>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });

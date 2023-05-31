@@ -52,7 +52,7 @@ public class TipoRangoAdapter extends ArrayAdapter<TipoRango> {
         currRowVal = (TipoRango) tipoRangos.get(position);
         TextView label = (TextView) row.findViewById(R.id.spinnerItemRango);
 
-        label.setText(currRowVal.getTiporango());
+        label.setText(currRowVal.getId());
 
         return row;
     }

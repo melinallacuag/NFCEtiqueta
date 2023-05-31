@@ -2,20 +2,15 @@ package com.example.nfcetiqueta.WebApiSVEN.Models;
 
 public class TipoRango {
 
-    private String tiporango;
+    private String id;
     private String descripcion;
 
-    public TipoRango(String tiporango,String descripcion) {
-        this.tiporango = tiporango;
-        this.descripcion = descripcion;
+    public String getId() {
+        return id;
     }
 
-    public String getTiporango() {
-        return tiporango;
-    }
-
-    public void setTiporango(String tiporango) {
-        this.tiporango = tiporango;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescripcion() {

@@ -302,18 +302,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         /**
-         *  Tipo de Rango
+         *  Seleccionar Tipo de Rango
          */
 
-        List<TipoRango> tipoRangoList = new ArrayList<>();
-
-        for (int i = 0; i < 1; i++){
-            tipoRangoList.add(new TipoRango("GLN","RANGO POR GALONES"));
-            tipoRangoList.add(new TipoRango("MTO","RANGO POR MONTO"));
-        }
-
         Resources resTRango = getResources();
-        TipoRangoAdapter tipoRangoAdapter = new TipoRangoAdapter(getContext(), R.layout.itemrango, (ArrayList<TipoRango>) tipoRangoList, resTRango);
+        TipoRangoAdapter tipoRangoAdapter = new TipoRangoAdapter(getContext(), R.layout.itemrango, (ArrayList<TipoRango>) GlobalInfo.gettiporangoList10, resTRango);
         SpinnerTRango.setAdapter(tipoRangoAdapter);
 
         SpinnerTRango.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -321,11 +314,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoRango tipoRango = (TipoRango) parent.getItemAtPosition(position);
                 String descripcionRango = tipoRango.getDescripcion();
-                if (tipoRango.getTiporango().equals("GLN")) {
+                if (tipoRango.getId().equals("GLN")) {
                     // Mostrar campo de entrada para "Contado"
                     input_DescTipoRango.setText(descripcionRango);
 
-                } else if (tipoRango.getTiporango().equals("MTO")) {
+                } else if (tipoRango.getId().equals("MTO")) {
                     // Mostrar campo de entrada para "Descuento"
                     input_DescTipoRango.setText(descripcionRango);
 
@@ -334,7 +327,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // No se seleccionó ningún elemento
             }
         });
 
