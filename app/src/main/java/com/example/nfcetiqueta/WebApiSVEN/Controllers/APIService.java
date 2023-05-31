@@ -1,5 +1,6 @@
 package com.example.nfcetiqueta.WebApiSVEN.Controllers;
 
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
@@ -54,5 +55,20 @@ public interface APIService {
     @GET("api/clientepreciocnf/listado/tdescuento")
     Call<List<TipoDescuento>> getTipoDescuento();
 
+    /**
+     * @Cliente_DNI
+     * @Buscar Cliente con DNI
+     */
+
+    @GET("api/cliente/listado/DNI/{id}")
+    Call<List<LClientes>> findClienteDNI(@Path("id") String id);
+
+    /**
+     * @Cliente_RUC
+     * @bUSCAR Cliente con RUC
+     */
+
+    @GET("api/cliente/listado/RUC/{id}")
+    Call<List<LClientes>> findClienteRUC(@Path("id") String id);
 
 }

@@ -99,19 +99,22 @@
                     app:boxCornerRadiusBottomEnd="15dp"
                     app:boxCornerRadiusTopEnd="15dp"
                     app:endIconMode="clear_text"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="11"
                     android:layout_marginBottom="5sp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_ruc_dni"
                         android:textSize="12sp"
                         android:inputType="number"
+                        android:maxLength="11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
-                    android:id="@+id/buscarDNIBoleta"
+                    android:id="@+id/buscarDatoCliente"
                     android:layout_width="250sp"
                     android:layout_height="60sp"
                     android:layout_weight="1"

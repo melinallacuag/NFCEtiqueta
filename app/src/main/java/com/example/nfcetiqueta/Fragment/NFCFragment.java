@@ -37,6 +37,7 @@ import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
 import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.R;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
@@ -48,6 +49,10 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
@@ -66,7 +71,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     String nfc, placa,rucdni,razonsocial,codproducto,descproducto,rgInicial,rgFinal,descuentoGl,
             descripcion_prodcuto,codigo_producto;
 
-    Button btnagregar,btncancelar;
+    Button btnagregar,btnconsultar,btncancelar;
 
     Dialog modalProducto;
     LProductosAdapter lProductosAdapter;
@@ -78,12 +83,17 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     Spinner SpinnerTCliente,SpinnerTRango,SpinnerTDescuento;
 
+    private APIService mAPIService;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_n_f_c, container, false);
 
-        btnagregar  = view.findViewById(R.id.btnAgregar);
+        mAPIService = GlobalInfo.getAPIService();
+
+        btnagregar        = view.findViewById(R.id.btnAgregar);
+        btnconsultar      = view.findViewById(R.id.buscarDatoCliente);
 
         alertaNFC         = view.findViewById(R.id.textNFC);
         alertPlaca        = view.findViewById(R.id.textPlaca);
@@ -200,6 +210,36 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 input_RangoInicial.setText("0.000");
                 input_RangoFinal.setText("0.000");
                 input_DescGalon.setText("0.00");
+            }
+        });
+
+        /**
+         *  Consultar Dato del Cliente
+         */
+        btnconsultar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String campodatocliente = inputRucDni.getText().toString();
+
+                if (campodatocliente.isEmpty() || campodatocliente == null) {
+                    alertRucDni.setError("* El campo DNI / RUC es obligatorio");
+                    return;
+                }else if (campodatocliente.length() < 8 || 11 < campodatocliente.length() ){
+                    alertRucDni.setError("* El DNI / RUC debe tener 8 o 11 dígitos");
+                    return;
+                }else if (campodatocliente.length() == 8 ){
+                    findClienteDNI(campodatocliente);
+                    return;
+                }else if (campodatocliente.length() == 11 ){
+                    findClienteRUC(campodatocliente);
+                    return;
+                }
+
+                alertRucDni.setErrorEnabled(false);
+
+                inputRazonSocial.getText().clear();
+
             }
         });
 
@@ -358,6 +398,76 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         return view;
     }
 
+    /** API SERVICE - Buscar Cliente DNI */
+    private  void findClienteDNI(String id){
+
+        Call<List<LClientes>> call = mAPIService.findClienteDNI(id);
+
+        call.enqueue(new Callback<List<LClientes>>() {
+            @Override
+            public void onResponse(Call<List<LClientes>> call, Response<List<LClientes>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.getlistaclienteList10 = response.body();
+
+                    LClientes lClientes = GlobalInfo.getlistaclienteList10.get(0);
+
+                    GlobalInfo.getclienteRZ10  = String.valueOf(lClientes.getClienteRZ());
+
+                    inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
+
+                }catch (Exception ex){
+                    Toast.makeText(getContext(),ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LClientes>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión APICORE Cliente DNI - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /** API SERVICE - Buscar Cliente RUC */
+    private  void findClienteRUC(String id){
+
+        Call<List<LClientes>> call = mAPIService.findClienteRUC(id);
+
+        call.enqueue(new Callback<List<LClientes>>() {
+            @Override
+            public void onResponse(Call<List<LClientes>> call, Response<List<LClientes>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.getlistaclienteList10 = response.body();
+
+                    LClientes lClientes = GlobalInfo.getlistaclienteList10.get(0);
+
+                    GlobalInfo.getclienteRZ10  = String.valueOf(lClientes.getClienteRZ());
+
+                    inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
+
+
+                }catch (Exception ex){
+                    Toast.makeText(getContext(),ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LClientes>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión APICORE Cliente RUC - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     public void onResume() {
