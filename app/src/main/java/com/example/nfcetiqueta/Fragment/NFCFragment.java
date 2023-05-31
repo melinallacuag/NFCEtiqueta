@@ -1,4 +1,4 @@
-package com.example.nfcetiqueta;
+package com.example.nfcetiqueta.Fragment;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import android.nfc.tech.NfcF;
 import android.nfc.tech.NfcV;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +32,15 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.nfcetiqueta.Adapter.LProductosAdapter;
+import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
+import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
+import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
+import com.example.nfcetiqueta.R;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 

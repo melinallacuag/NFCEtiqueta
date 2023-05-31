@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.nfcetiqueta.Fragment.NFCFragment;
+
 public class Menu extends AppCompatActivity {
 
     @Override

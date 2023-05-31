@@ -1,4 +1,4 @@
-package com.example.nfcetiqueta;
+package com.example.nfcetiqueta.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
+import com.example.nfcetiqueta.R;
+
 import java.util.List;
 
 public class LProductosAdapter  extends RecyclerView.Adapter<LProductosAdapter.ViewHolder>{

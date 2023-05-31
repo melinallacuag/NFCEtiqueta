@@ -1,4 +1,4 @@
-package com.example.nfcetiqueta;
+package com.example.nfcetiqueta.WebApiSVEN.Models;
 
 public class TipoDescuento {
 

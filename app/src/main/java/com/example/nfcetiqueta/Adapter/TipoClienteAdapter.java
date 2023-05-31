@@ -1,4 +1,4 @@
-package com.example.nfcetiqueta;
+package com.example.nfcetiqueta.Adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.example.nfcetiqueta.R;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 
 import java.util.ArrayList;
 
