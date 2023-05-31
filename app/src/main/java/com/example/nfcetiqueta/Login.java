@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
+import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
 import com.example.nfcetiqueta.WebApiSVEN.Models.Users;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
@@ -81,6 +82,7 @@ public class Login extends AppCompatActivity {
 
         getTipoCliente();
         getTipoRango();
+        getTipoDescuento();
     }
 
     /** API SERVICE - Users */
@@ -251,6 +253,34 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<TipoRango>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /** Spinner de Tipo de Descuento */
+    private void getTipoDescuento(){
+        Call<List<TipoDescuento>> call = mAPIService.getTipoDescuento();
+
+        call.enqueue(new Callback<List<TipoDescuento>>() {
+            @Override
+            public void onResponse(Call<List<TipoDescuento>> call, Response<List<TipoDescuento>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.gettipodescuentoList10 = response.body();
+
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TipoDescuento>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });

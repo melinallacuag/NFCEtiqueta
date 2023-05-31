@@ -331,18 +331,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         /**
-         *  Tipo de Descuento
+         *  Seleccionar Tipo de Descuento
          */
 
-        List<TipoDescuento> tipoDescuentoList = new ArrayList<>();
-
-        for (int i = 0; i < 1; i++){
-            tipoDescuentoList.add(new TipoDescuento("DES","MONTO DESCUENTO"));
-            tipoDescuentoList.add(new TipoDescuento("PRE","PRECIO FIJO"));
-        }
-
         Resources resTDescuento = getResources();
-        TipoDescuentoAdapter tipoDescuentoAdapter = new TipoDescuentoAdapter(getContext(), R.layout.itemdescuento, (ArrayList<TipoDescuento>) tipoDescuentoList, resTDescuento);
+        TipoDescuentoAdapter tipoDescuentoAdapter = new TipoDescuentoAdapter(getContext(), R.layout.itemdescuento, (ArrayList<TipoDescuento>) GlobalInfo.gettipodescuentoList10, resTDescuento);
         SpinnerTDescuento.setAdapter(tipoDescuentoAdapter);
 
         SpinnerTDescuento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -350,11 +343,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TipoDescuento tipoDescuento = (TipoDescuento) parent.getItemAtPosition(position);
                 String descripcionDescuento = tipoDescuento.getDescripcion();
-                if (tipoDescuento.getTipodescuento().equals("DES")) {
+                if (tipoDescuento.getId().equals("DES")) {
 
                     input_DescTipoDescuento.setText(descripcionDescuento);
 
-                } else if (tipoDescuento.getTipodescuento().equals("PRE")) {
+                } else if (tipoDescuento.getId().equals("PRE")) {
 
                     input_DescTipoDescuento.setText(descripcionDescuento);
 

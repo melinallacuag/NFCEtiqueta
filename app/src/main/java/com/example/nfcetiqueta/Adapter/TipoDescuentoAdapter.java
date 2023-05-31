@@ -52,7 +52,7 @@ public class TipoDescuentoAdapter extends ArrayAdapter<TipoDescuento> {
         currRowVal = (TipoDescuento) tipoDescuentos.get(position);
         TextView label = (TextView) row.findViewById(R.id.spinnerItemDescuento);
 
-        label.setText(currRowVal.getTipodescuento());
+        label.setText(currRowVal.getId());
 
         return row;
     }
