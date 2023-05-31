@@ -2,17 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Detectador de Etiquetas NFC-->
     <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature    android:name="android.hardware.nfc"  android:required="true" />
+    <!--  Permite el Acceso a Internet para el APIService-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature
-        android:name="android.hardware.nfc"
-        android:required="true" />
 
+    <!--   Permitir que la aplicación realice conexiones de red no cifradas (cleartext). -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
