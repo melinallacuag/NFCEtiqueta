@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="colorDanger">#dc3545</color>
+    <color name="colorDark">#212529</color>
     <color name="blue">#001E8A</color>
     <color name="gris">#474747</color>
     <color name="colorSuccess">#198754</color>
+    <color name="colorNer">#2E7CC5</color>
 </resources>
