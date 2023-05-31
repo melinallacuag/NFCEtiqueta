@@ -56,18 +56,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     private IntentFilter[] intentFilters;
     private String[][] techLists;
 
-    TipoCliente tipoCliente;
-    TipoClienteAdapter tipoClienteAdapter;
-
-    List<LProductos> lProductosList;
-    RecyclerView recyclerLProducto;
-    LProductosAdapter lProductosAdapter;
-
-    String nfc, placa,rucdni,razonsocial,codproducto,descproducto,rgInicial,rgFinal,descuentoGl,
-            descripcion_prodcuto,codigo_producto;
-
-    Button btnagregar,btncancelar;
-
     TextInputEditText inputNFC, inputPlaca, inputRucDni,inputRazonSocial,input_CodProducto,input_DescProducto,
                       input_DescTipoCliente, input_DescTipoRango,input_RangoInicial,input_RangoFinal,
                       input_DescTipoDescuento,input_DescGalon;
@@ -75,18 +63,25 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     TextInputLayout alertaNFC, alertPlaca,alertRucDni,alertRazonSocial,alertCodProducto,alertDescProducto,
                     alertRangoInicial,alertRangoFinal,alertDescGalon;
 
-    Spinner SpinnerTCliente,SpinnerTRango,SpinnerTDescuento;
+    String nfc, placa,rucdni,razonsocial,codproducto,descproducto,rgInicial,rgFinal,descuentoGl,
+            descripcion_prodcuto,codigo_producto;
+
+    Button btnagregar,btncancelar;
 
     Dialog modalProducto;
+    LProductosAdapter lProductosAdapter;
+    RecyclerView recyclerLProducto;
 
-    private APIService mAPIService;
+    TipoClienteAdapter tipoClienteAdapter;
+    TipoRangoAdapter tipoRangoAdapter;
+    TipoDescuentoAdapter tipoDescuentoAdapter;
+
+    Spinner SpinnerTCliente,SpinnerTRango,SpinnerTDescuento;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_n_f_c, container, false);
-
-        mAPIService = GlobalInfo.getAPIService();
 
         btnagregar  = view.findViewById(R.id.btnAgregar);
 
@@ -113,21 +108,24 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         input_DescTipoDescuento = view.findViewById(R.id.input_DescTipoDescuento);
         input_DescGalon         = view.findViewById(R.id.input_DescGalon);
 
+        /** Componentes de Seleccionar Datos */
         SpinnerTCliente   = view.findViewById(R.id.SpinnerTCliente);
         SpinnerTRango     = view.findViewById(R.id.SpinnerTRango);
         SpinnerTDescuento = view.findViewById(R.id.SpinnerTDescuento);
 
+        /**
+         *  Iniciar proceso de detector NFC
+         */
         inputNFC.setKeyListener(null);
 
-        // Initialize NFC adapter
         nfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
 
-        // Create pending intent for reading NFC tag
+        /** Create pending intent for reading NFC tag */
         Intent intent = new Intent(getContext(), getActivity().getClass());
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
 
-        // Create intent filters and tech lists for NFC tag reading
+        /** Create intent filters and tech lists for NFC tag reading */
         IntentFilter tagIntentFilter = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         intentFilters = new IntentFilter[]{tagIntentFilter};
         techLists = new String[][]{new String[]{NfcA.class.getName(), NfcB.class.getName(),
@@ -135,6 +133,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 MifareClassic.class.getName(), MifareUltralight.class.getName(),
                 Ndef.class.getName()}};
 
+        /**
+         *  Proceso para Agregar un Nuevo Cliente Afiliado - Descuento
+         */
         btnagregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,11 +203,15 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             }
         });
 
+        /**
+         *  Modal de Listado de Productos
+         */
         modalProducto = new Dialog(getContext());
         modalProducto.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         modalProducto.setContentView(R.layout.list_productos);
         modalProducto.setCancelable(false);
 
+        /** Opción de Mostrar Modal de Productos */
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
@@ -215,25 +220,17 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                 modalProducto.show();
 
+                /** Mostrara los datos del Modal de Productos */
                 recyclerLProducto = modalProducto.findViewById(R.id.recyclerLProducto);
                 recyclerLProducto.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-                lProductosList = new ArrayList<>();
-
-                for (int i = 0; i < 1; i++){
-                    lProductosList.add(new LProductos("G-PREMIUM","93"));
-                    lProductosList.add(new LProductos("G-REGULAR","92"));
-                    lProductosList.add(new LProductos("DIESEL DB5","05"));
-                    lProductosList.add(new LProductos("GLP","07"));
-                }
-
-                lProductosAdapter = new LProductosAdapter(lProductosList, getContext(), new LProductosAdapter.OnItemClickListener() {
+                lProductosAdapter = new LProductosAdapter(GlobalInfo.getproductosList10, getContext(), new LProductosAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(LProductos item) {
 
+                        /** Al seleccionar una opcion se insertara en el Campo ( Codigo - Descripcion ) */
                         descripcion_prodcuto = item.getDescripcion();
-                        codigo_producto = item.getCodigo();
+                        codigo_producto      = item.getId();
 
                         input_DescProducto.setText(descripcion_prodcuto);
                         input_CodProducto.setText(codigo_producto);
@@ -242,16 +239,13 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     }
                 });
 
-
                 recyclerLProducto.setAdapter(lProductosAdapter);
-                recyclerLProducto.setLayoutManager(new LinearLayoutManager(getContext()));
 
+                /** Cerrar Modal de Productos */
                 btncancelar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         modalProducto.dismiss();
-
                     }
                 });
 
@@ -259,6 +253,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             }
         });
 
+        /** Realizar Doble Click al campo CodProducto abrira el Modal de Producto */
         input_CodProducto.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -306,7 +301,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
          */
 
         Resources resTRango = getResources();
-        TipoRangoAdapter tipoRangoAdapter = new TipoRangoAdapter(getContext(), R.layout.itemrango, (ArrayList<TipoRango>) GlobalInfo.gettiporangoList10, resTRango);
+        tipoRangoAdapter = new TipoRangoAdapter(getContext(), R.layout.itemrango, (ArrayList<TipoRango>) GlobalInfo.gettiporangoList10, resTRango);
         SpinnerTRango.setAdapter(tipoRangoAdapter);
 
         SpinnerTRango.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -335,7 +330,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
          */
 
         Resources resTDescuento = getResources();
-        TipoDescuentoAdapter tipoDescuentoAdapter = new TipoDescuentoAdapter(getContext(), R.layout.itemdescuento, (ArrayList<TipoDescuento>) GlobalInfo.gettipodescuentoList10, resTDescuento);
+        tipoDescuentoAdapter = new TipoDescuentoAdapter(getContext(), R.layout.itemdescuento, (ArrayList<TipoDescuento>) GlobalInfo.gettipodescuentoList10, resTDescuento);
         SpinnerTDescuento.setAdapter(tipoDescuentoAdapter);
 
         SpinnerTDescuento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -362,6 +357,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         return view;
     }
+
 
     @Override
     public void onResume() {

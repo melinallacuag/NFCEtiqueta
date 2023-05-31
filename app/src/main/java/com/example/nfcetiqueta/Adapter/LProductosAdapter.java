@@ -45,7 +45,7 @@ public class LProductosAdapter  extends RecyclerView.Adapter<LProductosAdapter.V
 
         LProductos productos = lProductosList.get(position);
         holder.descripcion_prosucto.setText(lProductosList.get(position).getDescripcion());
-        holder.codigo_producto.setText(lProductosList.get(position).getCodigo());
+        holder.codigo_producto.setText(lProductosList.get(position).getId());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
