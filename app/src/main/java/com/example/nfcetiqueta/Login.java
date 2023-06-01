@@ -130,7 +130,7 @@ public class Login extends AppCompatActivity {
 
                             lCompany = (LCompany) parent.getItemAtPosition(position);
 
-                            GlobalInfo.getGetIdCompany10     = lCompany.getCompanyID();
+                                GlobalInfo.getGetIdCompany10   = lCompany.getCompanyID();
 
                             if (lCompany.getCompanyID().equals(GlobalInfo.getGetIdCompany10)) {
 

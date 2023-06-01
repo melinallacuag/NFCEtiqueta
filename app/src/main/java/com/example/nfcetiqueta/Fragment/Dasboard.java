@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.nfcetiqueta.Login;
 import com.example.nfcetiqueta.R;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 
 
@@ -132,4 +133,5 @@ public class Dasboard extends Fragment {
 
         return view;
     }
+
 }

@@ -1,8 +1,4 @@
 package com.example.nfcetiqueta.Fragment;
-
-import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,9 +14,7 @@ import com.example.nfcetiqueta.Adapter.LRegistroClienteAdapter;
 import com.example.nfcetiqueta.R;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
-import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,6 +26,7 @@ public class ListadoRegistroFragment extends Fragment {
     RecyclerView recyclerListaClientesAfiliados ;
 
     LRegistroClienteAdapter lRegistroClienteAdapter;
+
     private APIService mAPIService;
 
     @Override
@@ -42,12 +37,11 @@ public class ListadoRegistroFragment extends Fragment {
 
         mAPIService  = GlobalInfo.getAPIService();
 
-
         /** Listado de Comprobantes  */
         recyclerListaClientesAfiliados = view.findViewById(R.id.recyclerListaClientesAfiliados);
         recyclerListaClientesAfiliados.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        findClienteAfiliado("0D746CE5500104E0",GlobalInfo.getIdCompany10);
+        findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
 
         return view;
     }
@@ -70,7 +64,6 @@ public class ListadoRegistroFragment extends Fragment {
 
                     GlobalInfo.getlistaclienteafiliadoList10 = response.body();
 
-
                     lRegistroClienteAdapter = new LRegistroClienteAdapter(GlobalInfo.getlistaclienteafiliadoList10, getContext());
 
                     recyclerListaClientesAfiliados.setAdapter(lRegistroClienteAdapter);
@@ -83,7 +76,7 @@ public class ListadoRegistroFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<LClienteAfiliados>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error de conexión APICORE Consulta Venta - RED - WIFI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error de conexión APICORE Lista Cliente - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
 

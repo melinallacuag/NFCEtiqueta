@@ -24,6 +24,7 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
     public LRegistroClienteAdapter(List<LClienteAfiliados> lClienteAfiliadosList, Context context){
         this.lClienteAfiliadosList = lClienteAfiliadosList;
         this.context    = context;
+       ;
 
     }
     @NonNull

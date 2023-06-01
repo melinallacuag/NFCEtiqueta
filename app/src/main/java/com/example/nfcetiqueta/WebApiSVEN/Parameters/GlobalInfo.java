@@ -35,6 +35,7 @@ public class GlobalInfo {
      * Datos de la Empresa por Seleccion de Campo
      */
     public static Integer getGetIdCompany10;
+    public static String getnfcId10 = String.valueOf(-1);
 
     /**
      * Datos del Campo User - Usuario
