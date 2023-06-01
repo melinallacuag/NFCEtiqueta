@@ -1,6 +1,7 @@
 package com.example.nfcetiqueta.Fragment;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,10 @@ public class ListadoRegistroFragment extends Fragment {
 
     LRegistroClienteAdapter lRegistroClienteAdapter;
 
+    List<LClienteAfiliados> lClienteAfiliadosList;
+
+    SearchView BuscarRazonSocial;
+
     private APIService mAPIService;
 
     @Override
@@ -37,11 +42,34 @@ public class ListadoRegistroFragment extends Fragment {
 
         mAPIService  = GlobalInfo.getAPIService();
 
+        BuscarRazonSocial   = view.findViewById(R.id.BuscarRazonSocial);
+
         /** Listado de Comprobantes  */
         recyclerListaClientesAfiliados = view.findViewById(R.id.recyclerListaClientesAfiliados);
         recyclerListaClientesAfiliados.setLayoutManager(new LinearLayoutManager(getContext()));
 
         findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
+
+        /** Buscador por Razon Social */
+        BuscarRazonSocial.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                if (lClienteAfiliadosList.isEmpty()) {
+
+                    Toast.makeText(getContext(), "No se encontró el dato", Toast.LENGTH_SHORT).show();
+
+                }
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                lRegistroClienteAdapter.filtrado(newText);
+                return false;
+            }
+        });
 
         return view;
     }

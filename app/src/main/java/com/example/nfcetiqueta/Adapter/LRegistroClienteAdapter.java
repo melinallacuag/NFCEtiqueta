@@ -14,17 +14,25 @@ import com.example.nfcetiqueta.R;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClienteAdapter.ViewHolder>{
 
     public List<LClienteAfiliados> lClienteAfiliadosList;
     private Context context;
 
+    ArrayList<LClienteAfiliados> listaOriginal;
+
+
     public LRegistroClienteAdapter(List<LClienteAfiliados> lClienteAfiliadosList, Context context){
         this.lClienteAfiliadosList = lClienteAfiliadosList;
         this.context    = context;
-       ;
+
+        listaOriginal = new ArrayList<>();
+        listaOriginal.addAll(lClienteAfiliadosList);
+
 
     }
     @NonNull
@@ -52,6 +60,31 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
     @Override
     public int getItemCount() {
         return lClienteAfiliadosList.size();
+    }
+
+    public void filtrado(final String txtBuscar) {
+        lClienteAfiliadosList.clear();
+
+        if (txtBuscar.isEmpty()) {
+            lClienteAfiliadosList.addAll(listaOriginal);
+        } else {
+            String txtBuscarLowerCase = txtBuscar.toLowerCase();
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                List<LClienteAfiliados> filteredList = listaOriginal.stream()
+                        .filter(i -> i.getClienteRZ().toLowerCase().contains(txtBuscarLowerCase))
+                        .collect(Collectors.toList());
+                lClienteAfiliadosList.addAll(filteredList);
+            } else {
+                for (LClienteAfiliados comprobante : listaOriginal) {
+                    if (comprobante.getClienteRZ().toLowerCase().contains(txtBuscarLowerCase)) {
+                        lClienteAfiliadosList.add(comprobante);
+                    }
+                }
+            }
+        }
+
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

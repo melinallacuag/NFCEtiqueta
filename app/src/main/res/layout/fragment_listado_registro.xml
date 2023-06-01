@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_black"
             android:gravity="center_horizontal"
-            android:text="Listado de Comprobantes"
+            android:text="Listado de Clientes Afiliados"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
