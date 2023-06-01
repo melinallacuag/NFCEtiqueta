@@ -117,20 +117,9 @@ public class Login extends AppCompatActivity {
 
                     GlobalInfo.getlistacompanyList10 = response.body();
 
-                    for(LCompany lCompany: GlobalInfo.getlistacompanyList10){
-
-                        GlobalInfo.getIdCompany10     = Integer.valueOf(String.valueOf(lCompany.getCompanyID()));
-                        GlobalInfo.getNameCompany10    = String.valueOf(lCompany.getNames());
-                        GlobalInfo.getBranchCompany10  = String.valueOf(lCompany.getBranch());
-                        GlobalInfo.getSloganCompany10  = String.valueOf(lCompany.getEslogan());
-                    }
-
                     /**
                      *  Seleccionar Tipo de Company
                      */
-
-
-
                     Resources resTCompany = getResources();
                     lCompanyAdapter = new LCompanyAdapter(getApplicationContext(), R.layout.itemcompany, (ArrayList<LCompany>) GlobalInfo.getlistacompanyList10, resTCompany);
                     SpinnerCompany.setAdapter(lCompanyAdapter);
@@ -138,8 +127,18 @@ public class Login extends AppCompatActivity {
                     SpinnerCompany.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            lCompany = (LCompany) SpinnerCompany.getSelectedItem();
+
+                            lCompany = (LCompany) parent.getItemAtPosition(position);
+
                             GlobalInfo.getGetIdCompany10     = lCompany.getCompanyID();
+
+                            if (lCompany.getCompanyID().equals(GlobalInfo.getGetIdCompany10)) {
+
+                                GlobalInfo.getNameCompany10    = lCompany.getBranch();
+                                GlobalInfo.getBranchCompany10  = lCompany.getNames();
+                                GlobalInfo.getSloganCompany10  = lCompany.getEslogan();
+
+                            }
 
                         }
 
