@@ -1,6 +1,7 @@
 package com.example.nfcetiqueta.WebApiSVEN.Parameters;
 
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
@@ -18,14 +19,17 @@ public class GlobalInfo {
     public static List<LProductos>    getproductosList10;
     public static List<LClientes>     getlistaclienteList10;
     public static List<LCompany>      getlistacompanyList10;
+    public static List<LClienteAfiliados>      getlistaclienteafiliadoList10;
 
     /**
      * Datos de la Empresa
      */
+    public static Integer getIdCompany10;
     public static String getNameCompany10;
     public static String getBranchCompany10;
     public static String getSloganCompany10;
 
+    public static String getnfcIdLClienteAfiliado10;
 
     /**
      * Datos del Campo User - Usuario

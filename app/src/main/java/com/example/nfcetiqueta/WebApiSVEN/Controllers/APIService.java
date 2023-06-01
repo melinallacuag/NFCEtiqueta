@@ -1,5 +1,6 @@
 package com.example.nfcetiqueta.WebApiSVEN.Controllers;
 
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
@@ -79,5 +80,11 @@ public interface APIService {
 
     @GET("api/company/listado")
     Call<List<LCompany>> getCompany();
+
+    /**
+     * Consultar Venta
+     */
+    @GET("api/clienteprecio/listado/{nfcId}/{comapyId}")
+    Call<List<LClienteAfiliados>> findClienteAfiliado(@Path("nfcId") String nfcId,@Path("comapyId") Integer comapyId);
 
 }

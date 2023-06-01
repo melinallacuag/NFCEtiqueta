@@ -116,6 +116,8 @@ public class Login extends AppCompatActivity {
                     GlobalInfo.getlistacompanyList10 = response.body();
 
                     for(LCompany lCompany: GlobalInfo.getlistacompanyList10){
+
+                        GlobalInfo.getIdCompany10     = Integer.valueOf(String.valueOf(lCompany.getCompanyID()));
                         GlobalInfo.getNameCompany10    = String.valueOf(lCompany.getNames());
                         GlobalInfo.getBranchCompany10  = String.valueOf(lCompany.getBranch());
                         GlobalInfo.getSloganCompany10  = String.valueOf(lCompany.getEslogan());
