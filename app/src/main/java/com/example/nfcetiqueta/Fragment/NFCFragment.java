@@ -141,7 +141,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         /** Create pending intent for reading NFC tag */
         Intent intent = new Intent(getContext(), getActivity().getClass());
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
+       // pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
+         pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         /** Create intent filters and tech lists for NFC tag reading */
         IntentFilter tagIntentFilter = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
