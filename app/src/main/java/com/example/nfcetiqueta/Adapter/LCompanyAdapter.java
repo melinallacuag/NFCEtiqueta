@@ -16,6 +16,7 @@ import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import java.util.ArrayList;
 
 public class LCompanyAdapter extends ArrayAdapter<LCompany> {
+
     private Context context;
     private ArrayList<LCompany> lCompanies;
     public Resources res;
@@ -30,6 +31,7 @@ public class LCompanyAdapter extends ArrayAdapter<LCompany> {
         inflater         = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
+
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return getCustomView(position, convertView, parent);

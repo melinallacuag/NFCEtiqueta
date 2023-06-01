@@ -44,6 +44,7 @@ public class LProductosAdapter  extends RecyclerView.Adapter<LProductosAdapter.V
     public void onBindViewHolder(@NonNull LProductosAdapter.ViewHolder holder, int position) {
 
         LProductos productos = lProductosList.get(position);
+
         holder.descripcion_prosucto.setText(lProductosList.get(position).getDescripcion());
         holder.codigo_producto.setText(lProductosList.get(position).getId());
 

@@ -92,7 +92,7 @@ public interface APIService {
     Call<List<LClienteAfiliados>> findClienteAfiliado(@Path("nfcId") String nfcId,@Path("comapyId") Integer comapyId);
 
     /**
-     * @ClientePrecio
+     * @ClientePrecio-Guardar
      * @Guardar clientes afiliados
      */
 

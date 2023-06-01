@@ -27,7 +27,7 @@ import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 public class Dasboard extends Fragment {
 
     TextView nombre_grifero,nombre_empresa,sucursal_empresa,slogan_empresa;
-    CardView btn_Reguistrar,btn_Listado,btn_Salir;
+    CardView btn_Registrar,btn_Listado,btn_Salir;
     Button btncancelarsalida,btnsalir;
     Dialog modalSalir;
 
@@ -41,7 +41,7 @@ public class Dasboard extends Fragment {
         nombre_empresa    = view.findViewById(R.id.nombre_empresa);
         sucursal_empresa  = view.findViewById(R.id.sucursal_empresa);
         slogan_empresa    = view.findViewById(R.id.slogan_empresa);
-        btn_Reguistrar    = view.findViewById(R.id.btn_Reguistrar);
+        btn_Registrar     = view.findViewById(R.id.btn_Registrar);
         btn_Listado       = view.findViewById(R.id.btn_Listado);
         btn_Salir         = view.findViewById(R.id.btnSalir);
 
@@ -56,7 +56,7 @@ public class Dasboard extends Fragment {
         slogan_empresa.setText(GlobalInfo.getSloganCompany10);
 
         /** Ir a la Pantalla - Registrar Clientes Afiliados */
-        btn_Reguistrar.setOnClickListener(new View.OnClickListener() {
+        btn_Registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
