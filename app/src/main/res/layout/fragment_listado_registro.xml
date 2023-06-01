@@ -62,7 +62,7 @@
                         android:textSize="8sp" />
 
                     <TextView
-                        android:layout_width="80sp"
+                        android:layout_width="60sp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_extrabold"
                         android:gravity="center"
@@ -71,11 +71,20 @@
                         android:textSize="8sp" />
 
                     <TextView
-                        android:layout_width="100sp"
+                        android:layout_width="80sp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito_extrabold"
                         android:gravity="center"
                         android:text="Cliente ID"
+                        android:textColor="@color/white"
+                        android:textSize="8sp" />
+
+                    <TextView
+                        android:layout_width="100sp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:text="Razon Social"
                         android:textColor="@color/white"
                         android:textSize="8sp" />
 
@@ -115,14 +124,7 @@
                         android:textColor="@color/white"
                         android:textSize="8sp" />
 
-                    <TextView
-                        android:layout_width="100sp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito_extrabold"
-                        android:gravity="center"
-                        android:text="Razon Social"
-                        android:textColor="@color/white"
-                        android:textSize="8sp" />
+
 
                     <TextView
                         android:layout_width="60sp"

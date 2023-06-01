@@ -35,7 +35,7 @@
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/textArticuloID"
-                android:layout_width="80sp"
+                android:layout_width="60sp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
@@ -44,7 +44,7 @@
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/textClienteID"
-                android:layout_width="100sp"
+                android:layout_width="80sp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito_extrabold"
                 android:gravity="center"
@@ -52,6 +52,16 @@
                 android:textSize="8sp"
                 android:textStyle="bold"
                 android:inputType="textCapCharacters"/>
+
+                <TextView
+                    android:id="@+id/textClienteRZ"
+                    android:layout_width="100sp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_extrabold"
+                    android:gravity="center"
+                    android:textColor="@color/blue"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textTipoCliente"
@@ -94,15 +104,7 @@
                     android:textSize="8sp"
                     android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/textClienteRZ"
-                    android:layout_width="100sp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_extrabold"
-                    android:gravity="center"
-                    android:textColor="@color/blue"
-                    android:textSize="8sp"
-                    android:textStyle="bold" />
+
 
                 <TextView
                     android:id="@+id/textNroPlaca"
