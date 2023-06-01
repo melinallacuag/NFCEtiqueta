@@ -49,12 +49,12 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
         holder.textClienteID.setText(lClienteAfiliadosList.get(position).getClienteID());
         holder.textTipoCliente.setText(String.valueOf(lClienteAfiliadosList.get(position).getTipoCliente()));
         holder.textTipoRango.setText(lClienteAfiliadosList.get(position).getTipoCliente());
-        holder.textRango1.setText(String.valueOf(lClienteAfiliadosList.get(position).getRango1()));
-        holder.textRango2.setText(String.valueOf(lClienteAfiliadosList.get(position).getRango2()));
+        holder.textRango1.setText(String.valueOf(String.format("%.3f",lClienteAfiliadosList.get(position).getRango1())));
+        holder.textRango2.setText(String.valueOf(String.format("%.3f",lClienteAfiliadosList.get(position).getRango2())));
         holder.textClienteRZ.setText(lClienteAfiliadosList.get(position).getClienteRZ());
         holder.textNroPlaca.setText(String.valueOf(lClienteAfiliadosList.get(position).getNroPlaca()));
         holder.textTipoDescuento.setText(lClienteAfiliadosList.get(position).getTipoDescuento());
-        holder.textMontoDescuento.setText(String.valueOf(lClienteAfiliadosList.get(position).getMontoDescuento()));
+        holder.textMontoDescuento.setText(String.valueOf(String.format("%.2f",lClienteAfiliadosList.get(position).getMontoDescuento())));
     }
 
     @Override

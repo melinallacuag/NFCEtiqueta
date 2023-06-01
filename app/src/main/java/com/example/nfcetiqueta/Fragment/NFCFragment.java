@@ -168,10 +168,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 rgFinal            = input_RangoFinal.getText().toString();
                 descuentoGl        = input_DescGalon.getText().toString();
 
-                DoublergInicial    = Double.parseDouble(rgInicial);
-                DoublergFinal      = Double.parseDouble(rgFinal);
-                DoubledescuentoGl  = Double.parseDouble(descuentoGl);
-
                 tipoclienteID      = tipoCliente.getId();
                 tipoRangoID        = tipoRango.getId();
                 tipoDescuentoID    = tipoDescuento.getId();
@@ -204,6 +200,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
                     return;
                 }
+
+                DoublergInicial    = Double.parseDouble(rgInicial);
+                DoublergFinal      = Double.parseDouble(rgFinal);
+                DoubledescuentoGl  = Double.parseDouble(descuentoGl);
 
                 alertaNFC.setErrorEnabled(false);
                 alertPlaca.setErrorEnabled(false);
