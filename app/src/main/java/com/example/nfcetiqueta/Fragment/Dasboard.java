@@ -44,12 +44,12 @@ public class Dasboard extends Fragment {
         btn_Listado       = view.findViewById(R.id.btn_Listado);
         btn_Salir         = view.findViewById(R.id.btnSalir);
 
+        /** Nombre del usuario logeado */
         nombre_grifero.setText(GlobalInfo.getuserName10);
 
+        /** Mostrar datos de la Compania */
         String DirSucursal = (GlobalInfo.getBranchCompany10 != null) ? GlobalInfo.getBranchCompany10 : "";
-
         DirSucursal = DirSucursal.replace("-","");
-
         nombre_empresa.setText(GlobalInfo.getNameCompany10);
         sucursal_empresa.setText(DirSucursal);
         slogan_empresa.setText(GlobalInfo.getSloganCompany10);
