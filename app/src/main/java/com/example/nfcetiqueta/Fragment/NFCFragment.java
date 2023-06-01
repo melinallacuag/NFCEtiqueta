@@ -176,8 +176,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 tipoRangoID        = tipoRango.getId();
                 tipoDescuentoID    = tipoDescuento.getId();
 
-                boolean nfcExistente = verificarExistenciaNFC(nfc);
-
                 if(nfc.isEmpty()){
                     alertaNFC.setError("El campo NFC es obligatorio");
                     return;
@@ -204,9 +202,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     return;
                 }else if(descuentoGl.isEmpty()){
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
-                    return;
-                }else if(nfcExistente){
-                    alertaNFC.setError("Ya existe un registro con el mismo NFC");
                     return;
                 }
 
@@ -425,10 +420,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         return view;
-    }
-
-    private boolean verificarExistenciaNFC(String nfc) {
-        return nfc.equals(inputNFC.getText().toString());
     }
 
     /** API SERVICE - Buscar Cliente DNI */
