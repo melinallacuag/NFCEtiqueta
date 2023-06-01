@@ -16,6 +16,22 @@ public class LClienteAfiliados {
     private Integer companyID;
     private String userID;
 
+    public LClienteAfiliados(String rfid, String articuloID, String clienteID, String tipoCliente, String tipoRango, Double rango1, Double rango2, String clienteRZ, String nroPlaca, String tipoDescuento, Double montoDescuento, Integer companyID, String userID) {
+        this.rfid = rfid;
+        this.articuloID = articuloID;
+        this.clienteID = clienteID;
+        this.tipoCliente = tipoCliente;
+        this.tipoRango = tipoRango;
+        this.rango1 = rango1;
+        this.rango2 = rango2;
+        this.clienteRZ = clienteRZ;
+        this.nroPlaca = nroPlaca;
+        this.tipoDescuento = tipoDescuento;
+        this.montoDescuento = montoDescuento;
+        this.companyID = companyID;
+        this.userID = userID;
+    }
+
     public String getRfid() {
         return rfid;
     }

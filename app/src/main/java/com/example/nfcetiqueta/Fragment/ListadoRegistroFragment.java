@@ -47,7 +47,7 @@ public class ListadoRegistroFragment extends Fragment {
         recyclerListaClientesAfiliados = view.findViewById(R.id.recyclerListaClientesAfiliados);
         recyclerListaClientesAfiliados.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        findClienteAfiliado("3C746CE5500104E0",GlobalInfo.getIdCompany10);
+        findClienteAfiliado("0D746CE5500104E0",GlobalInfo.getIdCompany10);
 
         return view;
     }

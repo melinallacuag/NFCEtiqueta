@@ -357,7 +357,7 @@
                         android:id="@+id/input_RangoInicial"
                         android:textSize="12sp"
                         android:text="0.000"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -380,7 +380,7 @@
                         android:id="@+id/input_RangoFinal"
                         android:textSize="12sp"
                         android:text="0.000"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
@@ -467,7 +467,7 @@
                     android:id="@+id/input_DescGalon"
                     android:textSize="12sp"
                     android:text="0.00"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

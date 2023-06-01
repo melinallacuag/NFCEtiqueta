@@ -12,14 +12,16 @@ import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
 import java.util.List;
 
 public class GlobalInfo {
-
+    /**
+     * Lista de Clases
+     */
     public static List<TipoCliente>   gettipoclienteList10;
     public static List<TipoRango>     gettiporangoList10;
     public static List<TipoDescuento> gettipodescuentoList10;
     public static List<LProductos>    getproductosList10;
     public static List<LClientes>     getlistaclienteList10;
     public static List<LCompany>      getlistacompanyList10;
-    public static List<LClienteAfiliados>      getlistaclienteafiliadoList10;
+    public static List<LClienteAfiliados>  getlistaclienteafiliadoList10;
 
     /**
      * Datos de la Empresa
@@ -29,7 +31,10 @@ public class GlobalInfo {
     public static String getBranchCompany10;
     public static String getSloganCompany10;
 
-    public static String getnfcIdLClienteAfiliado10;
+    /**
+     * Datos de la Empresa por Seleccion de Campo
+     */
+    public static Integer getGetIdCompany10;
 
     /**
      * Datos del Campo User - Usuario

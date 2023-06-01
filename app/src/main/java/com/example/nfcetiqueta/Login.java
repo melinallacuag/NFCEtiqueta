@@ -45,6 +45,8 @@ public class Login extends AppCompatActivity {
 
     Spinner SpinnerCompany;
 
+    LCompany  lCompany;
+
     private APIService mAPIService;
 
     @Override
@@ -127,6 +129,8 @@ public class Login extends AppCompatActivity {
                      *  Seleccionar Tipo de Company
                      */
 
+
+
                     Resources resTCompany = getResources();
                     lCompanyAdapter = new LCompanyAdapter(getApplicationContext(), R.layout.itemcompany, (ArrayList<LCompany>) GlobalInfo.getlistacompanyList10, resTCompany);
                     SpinnerCompany.setAdapter(lCompanyAdapter);
@@ -134,6 +138,9 @@ public class Login extends AppCompatActivity {
                     SpinnerCompany.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            lCompany = (LCompany) SpinnerCompany.getSelectedItem();
+                            GlobalInfo.getGetIdCompany10     = lCompany.getCompanyID();
+
                         }
 
                         @Override
@@ -148,7 +155,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<LCompany>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión APICORE - RED - WIFI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Company - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -294,7 +301,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<LProductos>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Productos - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -323,7 +330,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<TipoCliente>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE TipoCliente - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -352,7 +359,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<TipoRango>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE TipoRango - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -381,7 +388,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<TipoDescuento>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Tarjetas - RED - WIFI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE TipoDescuento - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
     }

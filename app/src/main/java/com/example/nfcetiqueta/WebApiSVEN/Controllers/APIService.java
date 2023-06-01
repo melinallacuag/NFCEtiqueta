@@ -12,7 +12,9 @@ import com.example.nfcetiqueta.WebApiSVEN.Models.Users;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface APIService {
@@ -82,9 +84,18 @@ public interface APIService {
     Call<List<LCompany>> getCompany();
 
     /**
-     * Consultar Venta
+     * @ClientePrecio-Listado
+     * @Listado de clientes afiliados - NFC && IDCOMPANY
      */
+
     @GET("api/clienteprecio/listado/{nfcId}/{comapyId}")
     Call<List<LClienteAfiliados>> findClienteAfiliado(@Path("nfcId") String nfcId,@Path("comapyId") Integer comapyId);
 
+    /**
+     * @ClientePrecio
+     * @Guardar clientes afiliados
+     */
+
+    @POST("api/clienteprecio/guardar")
+    Call<LClienteAfiliados> postClienteAfiliados(@Body LClienteAfiliados lClienteAfiliados);
 }

@@ -37,6 +37,7 @@ import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
 import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.R;
@@ -69,7 +70,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     alertRangoInicial,alertRangoFinal,alertDescGalon;
 
     String nfc, placa,rucdni,razonsocial,codproducto,descproducto,rgInicial,rgFinal,descuentoGl,
-            descripcion_prodcuto,codigo_producto;
+            descripcion_prodcuto,codigo_producto,
+            tipoclienteID,tipoRangoID,tipoDescuentoID;
 
     Button btnagregar,btnconsultar,btncancelar;
 
@@ -81,7 +83,13 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     TipoRangoAdapter tipoRangoAdapter;
     TipoDescuentoAdapter tipoDescuentoAdapter;
 
+    TipoCliente tipoCliente;
+    TipoRango tipoRango;
+    TipoDescuento tipoDescuento;
+
     Spinner SpinnerTCliente,SpinnerTRango,SpinnerTDescuento;
+
+    Double DoublergInicial,DoublergFinal,DoubledescuentoGl;
 
     private APIService mAPIService;
 
@@ -150,15 +158,25 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             @Override
             public void onClick(View v) {
 
-                nfc          = inputNFC.getText().toString();
-                placa        = inputPlaca.getText().toString();
-                rucdni       = inputRucDni.getText().toString();
-                razonsocial  = inputRazonSocial.getText().toString();
-                codproducto  = input_CodProducto.getText().toString();
-                descproducto = input_DescProducto.getText().toString();
-                rgInicial    = input_RangoInicial.getText().toString();
-                rgFinal      = input_RangoFinal.getText().toString();
-                descuentoGl  = input_DescGalon.getText().toString();
+                nfc                = inputNFC.getText().toString();
+                placa              = inputPlaca.getText().toString();
+                rucdni             = inputRucDni.getText().toString();
+                razonsocial        = inputRazonSocial.getText().toString();
+                codproducto        = input_CodProducto.getText().toString();
+                descproducto       = input_DescProducto.getText().toString();
+                rgInicial          = input_RangoInicial.getText().toString();
+                rgFinal            = input_RangoFinal.getText().toString();
+                descuentoGl        = input_DescGalon.getText().toString();
+
+                DoublergInicial    = Double.parseDouble(rgInicial);
+                DoublergFinal      = Double.parseDouble(rgFinal);
+                DoubledescuentoGl  = Double.parseDouble(descuentoGl);
+
+                tipoclienteID      = tipoCliente.getId();
+                tipoRangoID        = tipoRango.getId();
+                tipoDescuentoID    = tipoDescuento.getId();
+
+                boolean nfcExistente = verificarExistenciaNFC(nfc);
 
                 if(nfc.isEmpty()){
                     alertaNFC.setError("El campo NFC es obligatorio");
@@ -187,6 +205,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 }else if(descuentoGl.isEmpty()){
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
                     return;
+                }else if(nfcExistente){
+                    alertaNFC.setError("Ya existe un registro con el mismo NFC");
+                    return;
                 }
 
                 alertaNFC.setErrorEnabled(false);
@@ -199,6 +220,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 alertRangoFinal.setErrorEnabled(false);
                 alertDescGalon.setErrorEnabled(false);
 
+                guardar_clientesAfiliados(nfc,codproducto,rucdni,tipoclienteID,tipoRangoID,DoublergInicial,DoublergFinal,
+                        razonsocial,placa,tipoDescuentoID,DoubledescuentoGl,GlobalInfo.getGetIdCompany10 ,GlobalInfo.getuserID10);
+
                 Toast.makeText(getContext(), "Se guardo correctamente", Toast.LENGTH_SHORT).show();
 
                 inputNFC.getText().clear();
@@ -210,6 +234,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 input_RangoInicial.setText("0.000");
                 input_RangoFinal.setText("0.000");
                 input_DescGalon.setText("0.00");
+
+                SpinnerTCliente.setSelection(0);
+                SpinnerTRango.setSelection(0);
+                SpinnerTDescuento.setSelection(0);
+
             }
         });
 
@@ -318,7 +347,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-               TipoCliente tipoCliente = (TipoCliente) parent.getItemAtPosition(position);
+                tipoCliente = (TipoCliente) parent.getItemAtPosition(position);
                 String descripcionCliente = tipoCliente.getDescripcion();
                 if (tipoCliente.getId().equals("CON")) {
 
@@ -347,7 +376,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         SpinnerTRango.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoRango tipoRango = (TipoRango) parent.getItemAtPosition(position);
+                tipoRango = (TipoRango) parent.getItemAtPosition(position);
                 String descripcionRango = tipoRango.getDescripcion();
                 if (tipoRango.getId().equals("GLN")) {
                     // Mostrar campo de entrada para "Contado"
@@ -376,7 +405,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         SpinnerTDescuento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TipoDescuento tipoDescuento = (TipoDescuento) parent.getItemAtPosition(position);
+                tipoDescuento = (TipoDescuento) parent.getItemAtPosition(position);
                 String descripcionDescuento = tipoDescuento.getDescripcion();
                 if (tipoDescuento.getId().equals("DES")) {
 
@@ -396,6 +425,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         return view;
+    }
+
+    private boolean verificarExistenciaNFC(String nfc) {
+        return nfc.equals(inputNFC.getText().toString());
     }
 
     /** API SERVICE - Buscar Cliente DNI */
@@ -467,6 +500,33 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 Toast.makeText(getContext(), "Error de conexión APICORE Cliente RUC - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /** Guardar - GALONES */
+    private void guardar_clientesAfiliados(String rfid,String articuloID,String clienteID,String tipoCliente,String tipoRango,
+                                           Double rango1, Double rango2,String clienteRZ,String nroPlaca,String tipoDescuento,
+                                           Double montoDescuento, Integer companyID,String userID){
+
+        final LClienteAfiliados mangueras = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,rango1,rango2,clienteRZ,nroPlaca
+                                                                    ,tipoDescuento,montoDescuento,companyID,userID);
+
+        Call<LClienteAfiliados> call = mAPIService.postClienteAfiliados(mangueras);
+
+        call.enqueue(new Callback<LClienteAfiliados>() {
+            @Override
+            public void onResponse(Call<LClienteAfiliados> call, Response<LClienteAfiliados> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LClienteAfiliados> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión APICORE", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
