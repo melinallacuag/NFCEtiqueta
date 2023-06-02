@@ -1,4 +1,7 @@
 package com.example.nfcetiqueta.Fragment;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.nfcetiqueta.Adapter.LRegistroClienteAdapter;
@@ -32,6 +36,9 @@ public class ListadoRegistroFragment extends Fragment {
 
     SearchView BuscarRazonSocial;
 
+    Dialog modalEliminarRegistro;
+    Button btnCancelarRProceso,btnEliminar;
+
     private APIService mAPIService;
 
     @Override
@@ -48,6 +55,13 @@ public class ListadoRegistroFragment extends Fragment {
         recyclerListaClientesAfiliados = view.findViewById(R.id.recyclerListaClientesAfiliados);
         recyclerListaClientesAfiliados.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        /** Mostrar Modal de Cambio de Turno */
+        modalEliminarRegistro = new Dialog(getContext());
+        modalEliminarRegistro.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        modalEliminarRegistro.setContentView(R.layout.modal_eliminar);
+        modalEliminarRegistro.setCancelable(false);
+
+        /** Datos para mostrar lista */
         findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
 
         /** Buscador por Razon Social */
@@ -92,10 +106,7 @@ public class ListadoRegistroFragment extends Fragment {
 
                     GlobalInfo.getlistaclienteafiliadoList10 = response.body();
 
-                    lRegistroClienteAdapter = new LRegistroClienteAdapter(GlobalInfo.getlistaclienteafiliadoList10, getContext());
-
-                    recyclerListaClientesAfiliados.setAdapter(lRegistroClienteAdapter);
-
+                    ListaRegistro();
 
                 }catch (Exception ex){
                     Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -108,6 +119,37 @@ public class ListadoRegistroFragment extends Fragment {
             }
         });
 
+    }
+
+    public void ListaRegistro(){
+
+        lRegistroClienteAdapter = new LRegistroClienteAdapter(GlobalInfo.getlistaclienteafiliadoList10, getContext(), new LRegistroClienteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(LClienteAfiliados item) {
+
+                modalEliminarRegistro.show();
+
+                btnCancelarRProceso    = modalEliminarRegistro.findViewById(R.id.btnCancelarRProceso);
+                btnEliminar            =  modalEliminarRegistro.findViewById(R.id.btnEliminar);
+
+                btnEliminar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        modalEliminarRegistro.dismiss();
+                    }
+                });
+
+                btnCancelarRProceso.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        modalEliminarRegistro.dismiss();
+                    }
+                });
+
+            }
+        });
+
+        recyclerListaClientesAfiliados.setAdapter(lRegistroClienteAdapter);
     }
 
 }

@@ -173,6 +173,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 tipoRangoID        = tipoRango.getId();
                 tipoDescuentoID    = tipoDescuento.getId();
 
+                boolean permitirGuardar = verificarNFCRegistrado(nfc, rucdni);
+
                 if(nfc.isEmpty()){
                     alertaNFC.setError("El campo NFC es obligatorio");
                     return;
@@ -199,6 +201,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     return;
                 }else if(descuentoGl.isEmpty()){
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
+                    return;
+                }else if (!permitirGuardar) {
+                    Toast.makeText(getContext(), "El NFC ya está registrado con otro RUC/DNI", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -421,6 +426,19 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         return view;
+    }
+
+    private boolean verificarNFCRegistrado(String nfc, String rucdni) {
+        for (LClienteAfiliados cliente : GlobalInfo.getlistaclienteafiliadoList10) {
+            if (cliente.getRfid().equals(nfc)) {
+                if (!cliente.getClienteID().equals(rucdni)) {
+                    return false; // El NFC ya está registrado con otro ID de RUC/DNI
+                } else {
+                    return true; // El NFC está registrado con el mismo ID de RUC/DNI
+                }
+            }
+        }
+        return true; // El NFC no está registrado
     }
 
     /** API SERVICE - Buscar Cliente DNI */

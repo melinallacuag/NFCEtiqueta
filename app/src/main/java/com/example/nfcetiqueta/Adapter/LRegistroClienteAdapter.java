@@ -1,6 +1,7 @@
 package com.example.nfcetiqueta.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,13 +23,23 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
 
     public List<LClienteAfiliados> lClienteAfiliadosList;
     private Context context;
+    final OnItemClickListener listener;
+    private int selectedItem;
 
     ArrayList<LClienteAfiliados> listaOriginal;
 
+    public interface  OnItemClickListener{
 
-    public LRegistroClienteAdapter(List<LClienteAfiliados> lClienteAfiliadosList, Context context){
+        void onItemClick(LClienteAfiliados item);
+
+    }
+
+    public LRegistroClienteAdapter(List<LClienteAfiliados> lClienteAfiliadosList, Context context, OnItemClickListener listener){
+
         this.lClienteAfiliadosList = lClienteAfiliadosList;
         this.context    = context;
+        this.listener   = listener;
+        selectedItem    = -1;
 
         listaOriginal = new ArrayList<>();
         listaOriginal.addAll(lClienteAfiliadosList);
@@ -44,6 +55,9 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
 
     @Override
     public void onBindViewHolder(@NonNull LRegistroClienteAdapter.ViewHolder holder, int position) {
+
+        LClienteAfiliados lClienteAfiliados = lClienteAfiliadosList.get(position);
+
         holder.textNFC.setText(lClienteAfiliadosList.get(position).getRfid());
         holder.textArticuloID.setText(lClienteAfiliadosList.get(position).getArticuloID());
         holder.textClienteID.setText(lClienteAfiliadosList.get(position).getClienteID());
@@ -55,6 +69,24 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
         holder.textNroPlaca.setText(String.valueOf(lClienteAfiliadosList.get(position).getNroPlaca()));
         holder.textTipoDescuento.setText(lClienteAfiliadosList.get(position).getTipoDescuento());
         holder.textMontoDescuento.setText(String.valueOf(String.format("%.2f",lClienteAfiliadosList.get(position).getMontoDescuento())));
+
+        holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+
+        if (selectedItem == position) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#0dcaf0"));
+        }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int previousItem = selectedItem;
+                selectedItem = position;
+                notifyItemChanged(previousItem);
+                notifyItemChanged(position);
+
+                listener.onItemClick(lClienteAfiliados);
+            }
+        });
     }
 
     @Override
