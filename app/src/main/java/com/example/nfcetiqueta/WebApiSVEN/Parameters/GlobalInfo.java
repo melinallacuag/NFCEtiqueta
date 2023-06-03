@@ -51,6 +51,9 @@ public class GlobalInfo {
      */
     public static String getnfcId10 = String.valueOf(-1);
 
+    public static String getRFiD10;
+    public static String getArticuloID10;
+
     /**
      * URL de la APIService
      */

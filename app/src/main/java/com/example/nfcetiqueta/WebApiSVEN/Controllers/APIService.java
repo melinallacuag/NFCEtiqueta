@@ -98,4 +98,13 @@ public interface APIService {
 
     @POST("api/clienteprecio/guardar")
     Call<LClienteAfiliados> postClienteAfiliados(@Body LClienteAfiliados lClienteAfiliados);
+
+    /**
+     * @ClientePrecio-Eliminar
+     * @Eliminar clientes afiliados
+     */
+
+    @POST("api/ClientePrecio/Eliminar/{RFID}/{CompanyID}/{ArticuloID}")
+    Call<LClienteAfiliados> postClienteAfiliadosEliminado(@Path("RFID") String RFID,@Path("CompanyID") Integer CompanyID,@Path("ArticuloID") String ArticuloID);
+
 }
