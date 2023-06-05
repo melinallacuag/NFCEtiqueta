@@ -139,7 +139,7 @@ public class ListadoRegistroFragment extends Fragment {
 
                 campo_eliminar   = modalEliminarRegistro.findViewById(R.id.campo_eliminar);
 
-                campo_eliminar.setText("NFC: " + GlobalInfo.getRFiD10 + GlobalInfo.getArticuloID10 );
+                campo_eliminar.setText("NFC: " + GlobalInfo.getRFiD10 + " - " + " ProductoId " + GlobalInfo.getArticuloID10);
 
 
                 btnEliminar.setOnClickListener(new View.OnClickListener() {
