@@ -112,7 +112,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/btn_Registrar"
             android:layout_width="wrap_content"
-            android:layout_height="180sp"
+            android:layout_height="165sp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
@@ -154,7 +154,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/btn_Listado"
             android:layout_width="wrap_content"
-            android:layout_height="180sp"
+            android:layout_height="165sp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"

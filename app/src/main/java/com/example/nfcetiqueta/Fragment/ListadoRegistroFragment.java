@@ -108,7 +108,47 @@ public class ListadoRegistroFragment extends Fragment {
 
                     GlobalInfo.getlistaclienteafiliadoList10 = response.body();
 
-                    ListaRegistro();
+                    lRegistroClienteAdapter = new LRegistroClienteAdapter(GlobalInfo.getlistaclienteafiliadoList10, getContext(), new LRegistroClienteAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(LClienteAfiliados item) {
+
+                            moveToDescription(item);
+
+                            modalEliminarRegistro.show();
+
+                            btnCancelarRProceso    = modalEliminarRegistro.findViewById(R.id.btnCancelarRProceso);
+                            btnEliminar            =  modalEliminarRegistro.findViewById(R.id.btnEliminar);
+
+                            campo_eliminar   = modalEliminarRegistro.findViewById(R.id.campo_eliminar);
+
+                            campo_eliminar.setText("NFC: " + GlobalInfo.getRFiD10 + " - " + " ProductoId " + GlobalInfo.getArticuloID10);
+
+
+                            btnEliminar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    postClienteAfiliadosEliminado(GlobalInfo.getRFiD10,GlobalInfo.getGetIdCompany10,GlobalInfo.getArticuloID10);
+
+                                    Toast.makeText(getContext(), "Se elimino Cliente Afiliado", Toast.LENGTH_SHORT).show();
+                                    modalEliminarRegistro.dismiss();
+
+                                    /** Actualizar - Card Consultar Venta */
+                                    findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
+                                }
+                            });
+
+                            btnCancelarRProceso.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    modalEliminarRegistro.dismiss();
+                                }
+                            });
+
+                        }
+                    });
+
+                    recyclerListaClientesAfiliados.setAdapter(lRegistroClienteAdapter);
 
                 }catch (Exception ex){
                     Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();

@@ -173,6 +173,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 tipoRangoID        = tipoRango.getId();
                 tipoDescuentoID    = tipoDescuento.getId();
 
+                if (verificarNFCRegistrado(nfc, rucdni)) {
+                    alertRucDni.setError("El NFC ya está registrado con otro RUC/DNI");
+                   return;
+                }
+
                 if(nfc.isEmpty()){
                     alertaNFC.setError("El campo NFC es obligatorio");
                     return;
@@ -200,10 +205,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 }else if(descuentoGl.isEmpty()){
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
                     return;
-                }else if (!verificarNFCRegistrado(nfc, rucdni)) {
-                    Toast.makeText(getContext(), "El NFC ya está registrado con otro RUC/DNI", Toast.LENGTH_SHORT).show();
-                    return;
                 }
+                /*if (!verificarRucDniClienteExistente(rucdni)) {
+                    Toast.makeText(getContext(), "El RUC/DNI no coincide con el cliente existente", Toast.LENGTH_SHORT).show();
+                    return;
+                }*/
 
                 DoublergInicial    = Double.parseDouble(rgInicial);
                 DoublergFinal      = Double.parseDouble(rgFinal);
@@ -378,11 +384,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 tipoRango = (TipoRango) parent.getItemAtPosition(position);
                 String descripcionRango = tipoRango.getDescripcion();
                 if (tipoRango.getId().equals("GLN")) {
-                    // Mostrar campo de entrada para "Contado"
                     input_DescTipoRango.setText(descripcionRango);
 
                 } else if (tipoRango.getId().equals("MTO")) {
-                    // Mostrar campo de entrada para "Descuento"
                     input_DescTipoRango.setText(descripcionRango);
 
                 }
@@ -430,7 +434,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         if (GlobalInfo.getlistaclienteafiliadoList10 != null) {
             for (LClienteAfiliados cliente : GlobalInfo.getlistaclienteafiliadoList10) {
                 if (cliente.getRfid().equals(nfc)) {
-                    if (!cliente.getClienteID().equals(rucdni)) {
+                    if (cliente.getClienteID().equals(rucdni)) {
                         return false; // El NFC ya está registrado con otro ID de RUC/DNI
                     } else {
                         return true; // El NFC está registrado con el mismo ID de RUC/DNI
@@ -438,7 +442,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 }
             }
         }
-        return true; // El NFC no está registrado
+        return false; // El NFC no está registrado
     }
 
     /** API SERVICE - Buscar Cliente DNI */
@@ -517,10 +521,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                                            Double rango1, Double rango2,String clienteRZ,String nroPlaca,String tipoDescuento,
                                            Double montoDescuento, Integer companyID,String userID){
 
-        final LClienteAfiliados mangueras = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,rango1,rango2,clienteRZ,nroPlaca
+        final LClienteAfiliados clienteAfiliados = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,rango1,rango2,clienteRZ,nroPlaca
                                                                     ,tipoDescuento,montoDescuento,companyID,userID);
 
-        Call<LClienteAfiliados> call = mAPIService.postClienteAfiliados(mangueras);
+        Call<LClienteAfiliados> call = mAPIService.postClienteAfiliados(clienteAfiliados);
 
         call.enqueue(new Callback<LClienteAfiliados>() {
             @Override

@@ -134,8 +134,8 @@ public class Login extends AppCompatActivity {
 
                             if (lCompany.getCompanyID().equals(GlobalInfo.getGetIdCompany10)) {
 
-                                GlobalInfo.getNameCompany10    = lCompany.getBranch();
-                                GlobalInfo.getBranchCompany10  = lCompany.getNames();
+                                GlobalInfo.getNameCompany10    = lCompany.getNames();
+                                GlobalInfo.getBranchCompany10  = lCompany.getBranch();
                                 GlobalInfo.getSloganCompany10  = lCompany.getEslogan();
 
                             }
