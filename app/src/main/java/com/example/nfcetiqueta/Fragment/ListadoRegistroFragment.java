@@ -70,20 +70,17 @@ public class ListadoRegistroFragment extends Fragment {
         BuscarRazonSocial.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                if (lClienteAfiliadosList.isEmpty()) {
-
-                    Toast.makeText(getContext(), "No se encontró el dato", Toast.LENGTH_SHORT).show();
-
-                }
-
+                onQueryTextChange(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                lRegistroClienteAdapter.filtrado(newText);
-                return false;
+                String userInput = newText.toLowerCase();
+                if (lRegistroClienteAdapter != null) {
+                    lRegistroClienteAdapter.filtrado(userInput);
+                }
+                return true;
             }
         });
 
@@ -116,27 +113,11 @@ public class ListadoRegistroFragment extends Fragment {
 
                             modalEliminarRegistro.show();
 
-                            btnCancelarRProceso    = modalEliminarRegistro.findViewById(R.id.btnCancelarRProceso);
-                            btnEliminar            =  modalEliminarRegistro.findViewById(R.id.btnEliminar);
+                            btnCancelarRProceso  = modalEliminarRegistro.findViewById(R.id.btnCancelarRProceso);
+                            btnEliminar          = modalEliminarRegistro.findViewById(R.id.btnEliminar);
+                            campo_eliminar       = modalEliminarRegistro.findViewById(R.id.campo_eliminar);
 
-                            campo_eliminar   = modalEliminarRegistro.findViewById(R.id.campo_eliminar);
-
-                            campo_eliminar.setText("NFC: " + GlobalInfo.getRFiD10 + " - " + " ProductoId " + GlobalInfo.getArticuloID10);
-
-
-                            btnEliminar.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                    postClienteAfiliadosEliminado(GlobalInfo.getRFiD10,GlobalInfo.getGetIdCompany10,GlobalInfo.getArticuloID10);
-
-                                    Toast.makeText(getContext(), "Se elimino Cliente Afiliado", Toast.LENGTH_SHORT).show();
-                                    modalEliminarRegistro.dismiss();
-
-                                    /** Actualizar - Card Consultar Venta */
-                                    findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
-                                }
-                            });
+                            campo_eliminar.setText("Etiqueta NFC: " + GlobalInfo.getRFiD10 + " - " + "Código Producto " + GlobalInfo.getArticuloID10);
 
                             btnCancelarRProceso.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -145,6 +126,20 @@ public class ListadoRegistroFragment extends Fragment {
                                 }
                             });
 
+                            btnEliminar.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    postClienteAfiliadosEliminado(GlobalInfo.getRFiD10,GlobalInfo.getGetIdCompany10,GlobalInfo.getArticuloID10);
+
+                                    modalEliminarRegistro.dismiss();
+
+                                    Toast.makeText(getContext(), "Se elimino Cliente Afiliado", Toast.LENGTH_SHORT).show();
+
+                                    /** Actualizar - Card Consultar Venta */
+                                    findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
+                                }
+                            });
                         }
                     });
 
@@ -163,55 +158,9 @@ public class ListadoRegistroFragment extends Fragment {
 
     }
 
-    /** Lista de Registro de Clientes Afiliados */
-    public void ListaRegistro(){
-
-        lRegistroClienteAdapter = new LRegistroClienteAdapter(GlobalInfo.getlistaclienteafiliadoList10, getContext(), new LRegistroClienteAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(LClienteAfiliados item) {
-
-                moveToDescription(item);
-
-                modalEliminarRegistro.show();
-
-                btnCancelarRProceso    = modalEliminarRegistro.findViewById(R.id.btnCancelarRProceso);
-                btnEliminar            =  modalEliminarRegistro.findViewById(R.id.btnEliminar);
-
-                campo_eliminar   = modalEliminarRegistro.findViewById(R.id.campo_eliminar);
-
-                campo_eliminar.setText("NFC: " + GlobalInfo.getRFiD10 + " - " + " ProductoId " + GlobalInfo.getArticuloID10);
-
-
-                btnEliminar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        postClienteAfiliadosEliminado(GlobalInfo.getRFiD10,GlobalInfo.getGetIdCompany10,GlobalInfo.getArticuloID10);
-
-                        Toast.makeText(getContext(), "Se elimino Cliente Afiliado", Toast.LENGTH_SHORT).show();
-                        modalEliminarRegistro.dismiss();
-
-                        /** Actualizar - Card Consultar Venta */
-                        findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
-                    }
-                });
-
-                btnCancelarRProceso.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        modalEliminarRegistro.dismiss();
-                    }
-                });
-
-            }
-        });
-
-        recyclerListaClientesAfiliados.setAdapter(lRegistroClienteAdapter);
-    }
-
     /** Dato Id de la Etiqueta NFC */
     public void moveToDescription(LClienteAfiliados item) {
-        GlobalInfo.getRFiD10  = item.getRfid();
+        GlobalInfo.getRFiD10        = item.getRfid();
         GlobalInfo.getArticuloID10  = item.getArticuloID();
     }
 
@@ -241,4 +190,9 @@ public class ListadoRegistroFragment extends Fragment {
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        recyclerListaClientesAfiliados.setAdapter(null);
+    }
 }

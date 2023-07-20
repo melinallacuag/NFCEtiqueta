@@ -206,10 +206,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
                     return;
                 }
-                /*if (!verificarRucDniClienteExistente(rucdni)) {
-                    Toast.makeText(getContext(), "El RUC/DNI no coincide con el cliente existente", Toast.LENGTH_SHORT).show();
-                    return;
-                }*/
 
                 DoublergInicial    = Double.parseDouble(rgInicial);
                 DoublergFinal      = Double.parseDouble(rgFinal);
@@ -521,8 +517,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                                            Double rango1, Double rango2,String clienteRZ,String nroPlaca,String tipoDescuento,
                                            Double montoDescuento, Integer companyID,String userID){
 
-        final LClienteAfiliados clienteAfiliados = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,rango1,rango2,clienteRZ,nroPlaca
-                                                                    ,tipoDescuento,montoDescuento,companyID,userID);
+        final LClienteAfiliados clienteAfiliados = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,
+                                                                         rango1,rango2,clienteRZ,nroPlaca,tipoDescuento,
+                                                                         montoDescuento,companyID,userID);
 
         Call<LClienteAfiliados> call = mAPIService.postClienteAfiliados(clienteAfiliados);
 
