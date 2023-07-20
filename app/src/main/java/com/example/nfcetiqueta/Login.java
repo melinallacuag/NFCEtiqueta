@@ -9,14 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.nfcetiqueta.Adapter.LCompanyAdapter;
-import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
-import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
@@ -93,7 +90,6 @@ public class Login extends AppCompatActivity {
 
         /** Mostrar el listado de Datos */
         getCompany();
-        getListProductos();
         getTipoCliente();
         getTipoRango();
         getTipoDescuento();
@@ -218,35 +214,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-    }
-
-    /** Listado de Productos */
-    private void getListProductos(){
-
-        Call<List<LProductos>> call = mAPIService.getLProductos();
-
-        call.enqueue(new Callback<List<LProductos>>() {
-            @Override
-            public void onResponse(Call<List<LProductos>> call, Response<List<LProductos>> response) {
-                try {
-
-                    if(!response.isSuccessful()){
-                        Toast.makeText(getApplicationContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    GlobalInfo.getproductosList10 = response.body();
-
-                }catch (Exception ex){
-                    Toast.makeText(getApplicationContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<LProductos>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Productos - RED - WIFI", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     /** Spinner de Tipo de Cliente */

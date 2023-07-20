@@ -281,35 +281,21 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         modalProducto.setContentView(R.layout.list_productos);
         modalProducto.setCancelable(false);
 
+        /**
+         * Inicio Mostrara los datos del Modal de Productos
+         */
+        recyclerLProducto = modalProducto.findViewById(R.id.recyclerLProducto);
+        recyclerLProducto.setLayoutManager(new LinearLayoutManager(getContext()));
+        getListProductos();
+
         /** Opción de Mostrar Modal de Productos */
         final GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
 
-                btncancelar  = modalProducto.findViewById(R.id.btnCancelarLProductos);
-
                 modalProducto.show();
 
-                /** Mostrara los datos del Modal de Productos */
-                recyclerLProducto = modalProducto.findViewById(R.id.recyclerLProducto);
-                recyclerLProducto.setLayoutManager(new LinearLayoutManager(getContext()));
-
-                lProductosAdapter = new LProductosAdapter(GlobalInfo.getproductosList10, getContext(), new LProductosAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(LProductos item) {
-
-                        /** Al seleccionar una opcion se insertara en el Campo ( Codigo - Descripcion ) */
-                        descripcion_prodcuto = item.getDescripcion();
-                        codigo_producto      = item.getId();
-
-                        input_DescProducto.setText(descripcion_prodcuto);
-                        input_CodProducto.setText(codigo_producto);
-
-                        modalProducto.dismiss();
-                    }
-                });
-
-                recyclerLProducto.setAdapter(lProductosAdapter);
+                btncancelar  = modalProducto.findViewById(R.id.btnCancelarLProductos);
 
                 /** Cerrar Modal de Productos */
                 btncancelar.setOnClickListener(new View.OnClickListener() {
@@ -424,6 +410,52 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         });
 
         return view;
+    }
+
+    /** Listado de Productos */
+    private void getListProductos(){
+
+        Call<List<LProductos>> call = mAPIService.getLProductos();
+
+        call.enqueue(new Callback<List<LProductos>>() {
+            @Override
+            public void onResponse(Call<List<LProductos>> call, Response<List<LProductos>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    GlobalInfo.getproductosList10 = response.body();
+
+                    lProductosAdapter = new LProductosAdapter(GlobalInfo.getproductosList10, getContext(), new LProductosAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(LProductos item) {
+
+                            /** Al seleccionar una opcion se insertara en el Campo ( Codigo - Descripcion ) */
+                            descripcion_prodcuto = item.getDescripcion();
+                            codigo_producto      = item.getId();
+
+                            input_DescProducto.setText(descripcion_prodcuto);
+                            input_CodProducto.setText(codigo_producto);
+
+                            modalProducto.dismiss();
+                        }
+                    });
+
+                    recyclerLProducto.setAdapter(lProductosAdapter);
+
+                }catch (Exception ex){
+                    Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LProductos>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión APICORE Productos - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean verificarNFCRegistrado(String nfc, String rucdni) {
