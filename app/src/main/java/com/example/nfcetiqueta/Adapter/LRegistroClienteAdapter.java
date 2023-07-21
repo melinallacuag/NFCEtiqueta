@@ -28,6 +28,13 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
 
     ArrayList<LClienteAfiliados> listaOriginal;
 
+    public void updateData(List<LClienteAfiliados> newData) {
+        lClienteAfiliadosList.clear();
+        lClienteAfiliadosList.addAll(newData);
+        notifyDataSetChanged();
+    }
+
+
     public interface  OnItemClickListener{
 
         void onItemClick(LClienteAfiliados item);

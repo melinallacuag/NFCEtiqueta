@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.nfcetiqueta.Adapter.LProductosAdapter;
+import com.example.nfcetiqueta.Adapter.LRegistroClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
 import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
@@ -63,11 +64,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     private String[][] techLists;
 
     TextInputEditText inputNFC, inputPlaca, inputRucDni,inputRazonSocial,input_CodProducto,input_DescProducto,
-                      input_DescTipoCliente, input_DescTipoRango,input_RangoInicial,input_RangoFinal,
-                      input_DescTipoDescuento,input_DescGalon;
+            input_DescTipoCliente, input_DescTipoRango,input_RangoInicial,input_RangoFinal,
+            input_DescTipoDescuento,input_DescGalon;
 
     TextInputLayout alertaNFC, alertPlaca,alertRucDni,alertRazonSocial,alertCodProducto,alertDescProducto,
-                    alertRangoInicial,alertRangoFinal,alertDescGalon;
+            alertRangoInicial,alertRangoFinal,alertDescGalon;
 
     String nfc, placa,rucdni,razonsocial,codproducto,descproducto,rgInicial,rgFinal,descuentoGl,
             descripcion_prodcuto,codigo_producto,
@@ -77,7 +78,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     Dialog modalProducto;
     LProductosAdapter lProductosAdapter;
+    LRegistroClienteAdapter lRegistroClienteAdapter;
     RecyclerView recyclerLProducto;
+
+    List<LClienteAfiliados> lClienteAfiliadosList;
 
     TipoClienteAdapter tipoClienteAdapter;
     TipoRangoAdapter tipoRangoAdapter;
@@ -141,8 +145,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         /** Create pending intent for reading NFC tag */
         Intent intent = new Intent(getContext(), getActivity().getClass());
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-       // pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
-         pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        // pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
+        pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         /** Create intent filters and tech lists for NFC tag reading */
         IntentFilter tagIntentFilter = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
@@ -151,127 +155,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 NfcF.class.getName(), NfcV.class.getName(), IsoDep.class.getName(),
                 MifareClassic.class.getName(), MifareUltralight.class.getName(),
                 Ndef.class.getName()}};
-
-        /**
-         *  Proceso para Agregar un Nuevo Cliente Afiliado - Descuento
-         */
-        btnagregar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                nfc                = inputNFC.getText().toString();
-                placa              = inputPlaca.getText().toString();
-                rucdni             = inputRucDni.getText().toString();
-                razonsocial        = inputRazonSocial.getText().toString();
-                codproducto        = input_CodProducto.getText().toString();
-                descproducto       = input_DescProducto.getText().toString();
-                rgInicial          = input_RangoInicial.getText().toString();
-                rgFinal            = input_RangoFinal.getText().toString();
-                descuentoGl        = input_DescGalon.getText().toString();
-
-                tipoclienteID      = tipoCliente.getId();
-                tipoRangoID        = tipoRango.getId();
-                tipoDescuentoID    = tipoDescuento.getId();
-
-                if (verificarNFCRegistrado(nfc, rucdni)) {
-                    alertRucDni.setError("El NFC ya está registrado con otro RUC/DNI");
-                   return;
-                }
-
-                if(nfc.isEmpty()){
-                    alertaNFC.setError("El campo NFC es obligatorio");
-                    return;
-                }if(placa.isEmpty()){
-                    alertPlaca.setError("El campo Placa es obligatorio");
-                    return;
-                }else if(rucdni.isEmpty()){
-                    alertRucDni.setError("El campo RUC o DNI es obligatorio");
-                    return;
-                } else if(razonsocial.isEmpty()){
-                    alertRazonSocial.setError("El campo Razon Social es obligatorio");
-                    return;
-                }else if(codproducto.isEmpty()){
-                    alertCodProducto.setError("El campo Cod. Producto es obligatorio");
-                    return;
-                }else if(descproducto.isEmpty()){
-                    alertDescProducto.setError("El campo descripción es obligatorio");
-                    return;
-                }else if(rgInicial.isEmpty()){
-                    alertRangoInicial.setError("El campo Rango Inicial es obligatorio");
-                    return;
-                }else if(rgFinal.isEmpty()){
-                    alertRangoFinal.setError("El campo Rango Final es obligatorio");
-                    return;
-                }else if(descuentoGl.isEmpty()){
-                    alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
-                    return;
-                }
-
-                DoublergInicial    = Double.parseDouble(rgInicial);
-                DoublergFinal      = Double.parseDouble(rgFinal);
-                DoubledescuentoGl  = Double.parseDouble(descuentoGl);
-
-                alertaNFC.setErrorEnabled(false);
-                alertPlaca.setErrorEnabled(false);
-                alertRucDni.setErrorEnabled(false);
-                alertRazonSocial.setErrorEnabled(false);
-                alertCodProducto.setErrorEnabled(false);
-                alertDescProducto.setErrorEnabled(false);
-                alertRangoInicial.setErrorEnabled(false);
-                alertRangoFinal.setErrorEnabled(false);
-                alertDescGalon.setErrorEnabled(false);
-
-                guardar_clientesAfiliados(nfc,codproducto,rucdni,tipoclienteID,tipoRangoID,DoublergInicial,DoublergFinal,
-                        razonsocial,placa,tipoDescuentoID,DoubledescuentoGl,GlobalInfo.getGetIdCompany10 ,GlobalInfo.getuserID10);
-
-                Toast.makeText(getContext(), "Se guardo correctamente", Toast.LENGTH_SHORT).show();
-
-                inputNFC.getText().clear();
-                inputPlaca.setText("000-0000");
-                inputRucDni.getText().clear();
-                inputRazonSocial.getText().clear();
-                input_CodProducto.getText().clear();
-                input_DescProducto.getText().clear();
-                input_RangoInicial.setText("0.000");
-                input_RangoFinal.setText("0.000");
-                input_DescGalon.setText("0.00");
-
-                SpinnerTCliente.setSelection(0);
-                SpinnerTRango.setSelection(0);
-                SpinnerTDescuento.setSelection(0);
-
-            }
-        });
-
-        /**
-         *  Consultar Dato del Cliente
-         */
-        btnconsultar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String campodatocliente = inputRucDni.getText().toString();
-
-                if (campodatocliente.isEmpty() || campodatocliente == null) {
-                    alertRucDni.setError("* El campo DNI / RUC es obligatorio");
-                    return;
-                }else if (campodatocliente.length() < 8 || 11 < campodatocliente.length() ){
-                    alertRucDni.setError("* El DNI / RUC debe tener 8 o 11 dígitos");
-                    return;
-                }else if (campodatocliente.length() == 8 ){
-                    findClienteDNI(campodatocliente);
-                    return;
-                }else if (campodatocliente.length() == 11 ){
-                    findClienteRUC(campodatocliente);
-                    return;
-                }
-
-                alertRucDni.setErrorEnabled(false);
-
-                inputRazonSocial.getText().clear();
-
-            }
-        });
 
         /**
          *  Modal de Listado de Productos
@@ -409,7 +292,180 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             }
         });
 
+        /**
+         *  Consultar Dato del Cliente
+         */
+        btnconsultar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String campodatocliente = inputRucDni.getText().toString();
+
+                if (campodatocliente.isEmpty() || campodatocliente == null) {
+                    alertRucDni.setError("* El campo DNI / RUC es obligatorio");
+                    return;
+                }else if (campodatocliente.length() < 8 || 11 < campodatocliente.length() ){
+                    alertRucDni.setError("* El DNI / RUC debe tener 8 o 11 dígitos");
+                    return;
+                }else if (campodatocliente.length() == 8 ){
+                    findClienteDNI(campodatocliente);
+                    return;
+                }else if (campodatocliente.length() == 11 ){
+                    findClienteRUC(campodatocliente);
+                    return;
+                }
+
+                alertRucDni.setErrorEnabled(false);
+
+                inputRazonSocial.getText().clear();
+
+            }
+        });
+
+        /**
+         *  Proceso para Agregar un Nuevo Cliente Afiliado - Descuento
+         */
+        btnagregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                nfc                = inputNFC.getText().toString();
+                placa              = inputPlaca.getText().toString();
+                rucdni             = inputRucDni.getText().toString();
+                razonsocial        = inputRazonSocial.getText().toString();
+                codproducto        = input_CodProducto.getText().toString();
+                descproducto       = input_DescProducto.getText().toString();
+                rgInicial          = input_RangoInicial.getText().toString();
+                rgFinal            = input_RangoFinal.getText().toString();
+                descuentoGl        = input_DescGalon.getText().toString();
+
+                tipoclienteID      = tipoCliente.getId();
+                tipoRangoID        = tipoRango.getId();
+                tipoDescuentoID    = tipoDescuento.getId();
+
+
+
+                if(nfc.isEmpty()){
+                    alertaNFC.setError("El campo NFC es obligatorio");
+                    return;
+                }else if(placa.isEmpty()){
+                    alertPlaca.setError("El campo Placa es obligatorio");
+                    return;
+                }else if(rucdni.isEmpty()){
+                    alertRucDni.setError("El campo RUC o DNI es obligatorio");
+                    return;
+                } else if(razonsocial.isEmpty()){
+                    alertRazonSocial.setError("El campo Razon Social es obligatorio");
+                    return;
+                }else if(codproducto.isEmpty()){
+                    alertCodProducto.setError("El campo Cod. Producto es obligatorio");
+                    return;
+                }else if(descproducto.isEmpty()){
+                    alertDescProducto.setError("El campo descripción es obligatorio");
+                    return;
+                }else if(rgInicial.isEmpty()){
+                    alertRangoInicial.setError("El campo Rango Inicial es obligatorio");
+                    return;
+                }else if(rgFinal.isEmpty()){
+                    alertRangoFinal.setError("El campo Rango Final es obligatorio");
+                    return;
+                }else if(descuentoGl.isEmpty()){
+                    alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
+                    return;
+                }
+
+                DoublergInicial    = Double.parseDouble(rgInicial);
+                DoublergFinal      = Double.parseDouble(rgFinal);
+                DoubledescuentoGl  = Double.parseDouble(descuentoGl);
+
+                alertaNFC.setErrorEnabled(false);
+                alertPlaca.setErrorEnabled(false);
+                alertRucDni.setErrorEnabled(false);
+                alertRazonSocial.setErrorEnabled(false);
+                alertCodProducto.setErrorEnabled(false);
+                alertDescProducto.setErrorEnabled(false);
+                alertRangoInicial.setErrorEnabled(false);
+                alertRangoFinal.setErrorEnabled(false);
+                alertDescGalon.setErrorEnabled(false);
+
+                findClienteAfiliado(GlobalInfo.getnfcId10, GlobalInfo.getGetIdCompany10);
+
+            }
+        });
+
         return view;
+    }
+
+    private boolean verificarNFCRegistrado(String nfc, String rucdni) {
+        if (lClienteAfiliadosList != null) {
+            for (LClienteAfiliados cliente : lClienteAfiliadosList) {
+                if (cliente.getRfid().equals(nfc)) {
+                    if (!cliente.getClienteID().equals(rucdni)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private void findClienteAfiliado(String nfcId,Integer comapyId){
+
+        Call<List<LClienteAfiliados>> call = mAPIService.findClienteAfiliado(nfcId,comapyId);
+
+        call.enqueue(new Callback<List<LClienteAfiliados>>() {
+            @Override
+            public void onResponse(Call<List<LClienteAfiliados>> call, Response<List<LClienteAfiliados>> response) {
+
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    lClienteAfiliadosList = response.body();
+
+                    if (lRegistroClienteAdapter != null) {
+                        lRegistroClienteAdapter.updateData(lClienteAfiliadosList);
+                        lRegistroClienteAdapter.notifyDataSetChanged();
+                    }
+
+                    if (verificarNFCRegistrado(nfc, rucdni)) {
+                        alertRucDni.setError("El NFC ya está registrado con otro RUC/DNI");
+                        return;
+                    }
+
+                    guardar_clientesAfiliados(nfc, codproducto, rucdni, tipoclienteID, tipoRangoID, DoublergInicial, DoublergFinal,
+                            razonsocial, placa, tipoDescuentoID, DoubledescuentoGl, GlobalInfo.getGetIdCompany10, GlobalInfo.getuserID10);
+
+                    Toast.makeText(getContext(), "Se guardo correctamente", Toast.LENGTH_SHORT).show();
+
+                    inputNFC.getText().clear();
+                    inputPlaca.setText("000-0000");
+                    inputRucDni.getText().clear();
+                    inputRazonSocial.getText().clear();
+                    input_CodProducto.getText().clear();
+                    input_DescProducto.getText().clear();
+                    input_RangoInicial.setText("0.000");
+                    input_RangoFinal.setText("0.000");
+                    input_DescGalon.setText("0.00");
+
+                    SpinnerTCliente.setSelection(0);
+                    SpinnerTRango.setSelection(0);
+                    SpinnerTDescuento.setSelection(0);
+
+                }catch (Exception ex){
+                    Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LClienteAfiliados>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión APICORE Lista Cliente - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     /** Listado de Productos */
@@ -456,21 +512,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 Toast.makeText(getContext(), "Error de conexión APICORE Productos - RED - WIFI", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private boolean verificarNFCRegistrado(String nfc, String rucdni) {
-        if (GlobalInfo.getlistaclienteafiliadoList10 != null) {
-            for (LClienteAfiliados cliente : GlobalInfo.getlistaclienteafiliadoList10) {
-                if (cliente.getRfid().equals(nfc)) {
-                    if (cliente.getClienteID().equals(rucdni)) {
-                        return false; // El NFC ya está registrado con otro ID de RUC/DNI
-                    } else {
-                        return true; // El NFC está registrado con el mismo ID de RUC/DNI
-                    }
-                }
-            }
-        }
-        return false; // El NFC no está registrado
     }
 
     /** API SERVICE - Buscar Cliente DNI */
@@ -550,8 +591,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                                            Double montoDescuento, Integer companyID,String userID){
 
         final LClienteAfiliados clienteAfiliados = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,
-                                                                         rango1,rango2,clienteRZ,nroPlaca,tipoDescuento,
-                                                                         montoDescuento,companyID,userID);
+                rango1,rango2,clienteRZ,nroPlaca,tipoDescuento,
+                montoDescuento,companyID,userID);
 
         Call<LClienteAfiliados> call = mAPIService.postClienteAfiliados(clienteAfiliados);
 
