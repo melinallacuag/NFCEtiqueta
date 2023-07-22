@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
                 GlobalInfo.getuserName10 = "";
                 GlobalInfo.getuserPass10 = "";
 
-                findUsers(inputUsuario.getText().toString());
+                findUsers(usuarioUser);
 
             }
         });
@@ -173,34 +173,34 @@ public class Login extends AppCompatActivity {
 
                     usersList = response.body();
 
-                    for(Users user: usersList) {
+                    if (usersList != null && !usersList.isEmpty()) {
+
+                        Users user = usersList.get(0);
 
                         inputUsuario.setText(user.getUserID());
+                        GlobalInfo.getuserID10 = user.getUserID();
+                        GlobalInfo.getuserName10 = user.getNames();
+                        GlobalInfo.getuserPass10 = user.getPassword();
+                        GlobalInfo.getuserLocked10 = user.getLocked();
 
-                        GlobalInfo.getuserID10      = user.getUserID();
-                        GlobalInfo.getuserName10    = user.getNames();
-                        GlobalInfo.getuserPass10    = user.getPassword();
-                        GlobalInfo.getuserLocked10  = user.getLocked();
+                        if (GlobalInfo.getuserLocked10 == false) {
+                            Toast.makeText( getApplicationContext(), "El Usuario se encuentra bloqueado.", Toast.LENGTH_SHORT).show();
+                        }else {
 
-                    }
+                            String getName = usuarioUser.trim();
+                            String getPass = checkpassword(contraseñaUser.trim());
 
-                    if (GlobalInfo.getuserLocked10 == false) {
-                        Toast.makeText( getApplicationContext(), "El usuario se encuentra bloqueado", Toast.LENGTH_SHORT).show();
-                    }else {
-
-                        String getName = inputUsuario.getText().toString();
-                        String getPass = checkpassword(inputContraseña.getText().toString());
-
-                        if( getName.equals(GlobalInfo.getuserName10)  || getPass.equals(GlobalInfo.getuserPass10)){
-
-                            Toast.makeText( getApplicationContext(), "Bienvenido al Sistema SVEN", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent( getApplicationContext(),Menu.class));
+                            if(getName.equals(GlobalInfo.getuserID10) && getPass.equals(GlobalInfo.getuserPass10)){
+                                Toast.makeText( getApplicationContext(), "Bienvenido al Sistema SVEN", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent( getApplicationContext(),Menu.class));
+                            }
+                            else {
+                                Toast.makeText( getApplicationContext(), "El usuario o la contraseña son incorrectos", Toast.LENGTH_SHORT).show();
+                            }
 
                         }
-                        else {
-                            Toast.makeText( getApplicationContext(), "El usuario o la contraseña son incorrectos", Toast.LENGTH_SHORT).show();
-                        }
-
+                    } else {
+                        Toast.makeText(getApplicationContext(), "El Usuario o la Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
                     }
 
                 }catch (Exception ex){
