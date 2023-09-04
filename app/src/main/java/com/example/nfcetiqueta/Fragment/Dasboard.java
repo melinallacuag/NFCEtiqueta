@@ -3,6 +3,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,9 @@ import com.example.nfcetiqueta.Login;
 import com.example.nfcetiqueta.NFCUtil;
 import com.example.nfcetiqueta.R;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
+import com.google.android.material.imageview.ShapeableImageView;
+
+import java.io.File;
 
 public class Dasboard extends Fragment {
 
@@ -25,6 +29,7 @@ public class Dasboard extends Fragment {
     CardView btn_Registrar,btn_Listado,btn_Salir;
     Button btncancelarsalida,btnsalir;
     Dialog modalSalir;
+    ShapeableImageView img_Logo;
 
     private NFCUtil nfcUtil;
 
@@ -46,9 +51,19 @@ public class Dasboard extends Fragment {
         btn_Registrar     = view.findViewById(R.id.btn_Registrar);
         btn_Listado       = view.findViewById(R.id.btn_Listado);
         btn_Salir         = view.findViewById(R.id.btnSalir);
+        img_Logo          = view.findViewById(R.id.logo_dashboard);
 
         /** Nombre del usuario logeado */
         nombre_grifero.setText(GlobalInfo.getuserName10);
+
+        /** Mostrar logo de la empresa */
+        File file = new File("/storage/emulated/0/appSven/logo.jpg");
+        String rutaImagen="/storage/emulated/0/appSven/logo.jpg";
+        if(!file.exists()){
+            rutaImagen = "/storage/emulated/0/appSven/logo.png";
+        }
+        Uri logoUri = Uri.parse("file://" + rutaImagen);
+        img_Logo.setImageURI(logoUri);
 
         /** Mostrar datos de la Compania */
         String DirSucursal = (GlobalInfo.getBranchCompany10 != null) ? GlobalInfo.getBranchCompany10 : "";

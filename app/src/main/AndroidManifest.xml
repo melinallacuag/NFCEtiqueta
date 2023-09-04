@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions" />
     <uses-feature    android:name="android.hardware.nfc"  android:required="true" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--  Permite el Acceso a Internet para el APIService-->
     <uses-permission android:name="android.permission.INTERNET" />
 

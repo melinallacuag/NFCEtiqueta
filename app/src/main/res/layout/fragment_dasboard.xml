@@ -38,7 +38,7 @@
             android:layout_width="120sp"
             android:layout_height="120sp"
             android:scaleType="centerCrop"
-            android:src="@drawable/logoprincipal"
+            android:id="@+id/logo_dashboard"
             app:shapeAppearanceOverlay="@style/roudperfil" />
 
     </LinearLayout>
