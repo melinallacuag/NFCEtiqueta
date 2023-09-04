@@ -3,26 +3,23 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.nfcetiqueta.Adapter.LRegistroClienteAdapter;
+import com.example.nfcetiqueta.NFCUtil;
 import com.example.nfcetiqueta.R;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,8 +30,6 @@ public class ListadoRegistroFragment extends Fragment {
 
     LRegistroClienteAdapter lRegistroClienteAdapter;
 
-    List<LClienteAfiliados> lClienteAfiliadosList;
-
     SearchView BuscarRazonSocial;
     TextView campo_eliminar;
 
@@ -43,9 +38,16 @@ public class ListadoRegistroFragment extends Fragment {
 
     private APIService mAPIService;
 
+    private NFCUtil nfcUtil;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        nfcUtil = new NFCUtil(getActivity());
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_listado_registro, container, false);
 
@@ -194,5 +196,17 @@ public class ListadoRegistroFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         recyclerListaClientesAfiliados.setAdapter(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nfcUtil.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        nfcUtil.onPause();
     }
 }

@@ -37,6 +37,7 @@ import com.example.nfcetiqueta.Adapter.LRegistroClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
 import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
+import com.example.nfcetiqueta.NFCUtil;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
@@ -97,12 +98,15 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     private APIService mAPIService;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_n_f_c, container, false);
 
         mAPIService = GlobalInfo.getAPIService();
+
+
 
         btnagregar        = view.findViewById(R.id.btnAgregar);
         btnconsultar      = view.findViewById(R.id.buscarDatoCliente);
@@ -142,13 +146,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
 
-        /** Create pending intent for reading NFC tag */
         Intent intent = new Intent(getContext(), getActivity().getClass());
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        // pendingIntent = PendingIntent.getActivity(getContext(), 0, intent, 0);
         pendingIntent = PendingIntent.getBroadcast(getContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        /** Create intent filters and tech lists for NFC tag reading */
         IntentFilter tagIntentFilter = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
         intentFilters = new IntentFilter[]{tagIntentFilter};
         techLists = new String[][]{new String[]{NfcA.class.getName(), NfcB.class.getName(),
@@ -437,7 +438,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     }
 
                     guardar_clientesAfiliados(nfc, codproducto, rucdni, tipoclienteID, tipoRangoID, DoublergInicial, DoublergFinal,
-                            razonsocial, placa, tipoDescuentoID, DoubledescuentoGl, GlobalInfo.getGetIdCompany10, GlobalInfo.getuserID10);
+                            razonsocial, placa, tipoDescuentoID, DoubledescuentoGl, String.valueOf(GlobalInfo.getGetIdCompany10), GlobalInfo.getuserID10);
 
                     Toast.makeText(getContext(), "Se guardo correctamente", Toast.LENGTH_SHORT).show();
 
@@ -588,7 +589,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
     /** Guardar - GALONES */
     private void guardar_clientesAfiliados(String rfid,String articuloID,String clienteID,String tipoCliente,String tipoRango,
                                            Double rango1, Double rango2,String clienteRZ,String nroPlaca,String tipoDescuento,
-                                           Double montoDescuento, Integer companyID,String userID){
+                                           Double montoDescuento, String companyID,String userID){
 
         final LClienteAfiliados clienteAfiliados = new LClienteAfiliados(rfid,articuloID,clienteID,tipoCliente,tipoRango,
                 rango1,rango2,clienteRZ,nroPlaca,tipoDescuento,
@@ -600,7 +601,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             @Override
             public void onResponse(Call<LClienteAfiliados> call, Response<LClienteAfiliados> response) {
                 if(!response.isSuccessful()){
-                    Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Codigo de error A: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

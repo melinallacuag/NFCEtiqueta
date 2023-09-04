@@ -28,10 +28,9 @@ public class GlobalInfo {
      * Datos de la Empresa
      */
     public static Integer getGetIdCompany10;
-
-    public static String getNameCompany10;
-    public static String getBranchCompany10;
-    public static String getSloganCompany10;
+    public static String  getNameCompany10;
+    public static String  getBranchCompany10;
+    public static String  getSloganCompany10;
 
     /**
      * Datos del Campo User - Usuario
@@ -50,17 +49,15 @@ public class GlobalInfo {
      * Datos de la Empresa por Seleccion de Campo
      */
     public static String getnfcId10 = String.valueOf(-1);
-
     public static String getRFiD10;
     public static String getArticuloID10;
 
     /**
      * URL de la APIService
      */
-
-   public static final String BASE_URL = "http://4-fact.com:8081/";
-
-  //  public static final String BASE_URL = "http://192.168.1.2:8081/";
+    // public static final String BASE_URL = "http://4-fact.com:8081/";
+    // public static final String BASE_URL = "http://192.168.1.227:8081/";
+    public static final String BASE_URL = "http://192.168.1.11:8081/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);

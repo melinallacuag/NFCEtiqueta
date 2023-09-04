@@ -13,10 +13,10 @@ public class LClienteAfiliados {
     private String nroPlaca;
     private String tipoDescuento;
     private Double montoDescuento;
-    private Integer companyID;
+    private String companyID;
     private String userID;
 
-    public LClienteAfiliados(String rfid, String articuloID, String clienteID, String tipoCliente, String tipoRango, Double rango1, Double rango2, String clienteRZ, String nroPlaca, String tipoDescuento, Double montoDescuento, Integer companyID, String userID) {
+    public LClienteAfiliados(String rfid, String articuloID, String clienteID, String tipoCliente, String tipoRango, Double rango1, Double rango2, String clienteRZ, String nroPlaca, String tipoDescuento, Double montoDescuento, String companyID, String userID) {
         this.rfid = rfid;
         this.articuloID = articuloID;
         this.clienteID = clienteID;
@@ -120,11 +120,11 @@ public class LClienteAfiliados {
         this.montoDescuento = montoDescuento;
     }
 
-    public Integer getCompanyID() {
+    public String getCompanyID() {
         return companyID;
     }
 
-    public void setCompanyID(Integer companyID) {
+    public void setCompanyID(String companyID) {
         this.companyID = companyID;
     }
 

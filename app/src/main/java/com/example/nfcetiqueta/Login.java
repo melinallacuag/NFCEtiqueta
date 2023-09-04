@@ -1,7 +1,5 @@
 package com.example.nfcetiqueta;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.nfcetiqueta.Adapter.LCompanyAdapter;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
@@ -21,10 +18,8 @@ import com.example.nfcetiqueta.WebApiSVEN.Models.Users;
 import com.example.nfcetiqueta.WebApiSVEN.Parameters.GlobalInfo;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,9 +41,14 @@ public class Login extends AppCompatActivity {
 
     private APIService mAPIService;
 
+    private NFCUtil nfcUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        nfcUtil = new NFCUtil(this);
+
         setContentView(R.layout.activity_login);
 
         mAPIService = GlobalInfo.getAPIService();
@@ -58,7 +58,6 @@ public class Login extends AppCompatActivity {
         inputContraseña     = findViewById(R.id.contraseña);
         alertUser           = findViewById(R.id.textusuario);
         alertPassword       = findViewById(R.id.textcontraseña);
-
         SpinnerCompany      = findViewById(R.id.SpinnerCompany);
 
         btnIniciarLogin.setOnClickListener(new View.OnClickListener() {
@@ -359,4 +358,17 @@ public class Login extends AppCompatActivity {
 
         return lResult;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        nfcUtil.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        nfcUtil.onPause();
+    }
+
 }
