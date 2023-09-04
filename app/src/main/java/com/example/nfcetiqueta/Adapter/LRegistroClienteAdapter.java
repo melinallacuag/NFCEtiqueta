@@ -69,7 +69,7 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
         holder.textArticuloID.setText(lClienteAfiliadosList.get(position).getArticuloID());
         holder.textClienteID.setText(lClienteAfiliadosList.get(position).getClienteID());
         holder.textTipoCliente.setText(String.valueOf(lClienteAfiliadosList.get(position).getTipoCliente()));
-        holder.textTipoRango.setText(lClienteAfiliadosList.get(position).getTipoCliente());
+        holder.textTipoRango.setText(lClienteAfiliadosList.get(position).getTipoRango());
         holder.textRango1.setText(String.valueOf(String.format("%.3f",lClienteAfiliadosList.get(position).getRango1())));
         holder.textRango2.setText(String.valueOf(String.format("%.3f",lClienteAfiliadosList.get(position).getRango2())));
         holder.textClienteRZ.setText(lClienteAfiliadosList.get(position).getClienteRZ());

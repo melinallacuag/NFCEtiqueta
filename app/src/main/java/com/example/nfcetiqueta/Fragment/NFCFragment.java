@@ -344,7 +344,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 tipoRangoID        = tipoRango.getId();
                 tipoDescuentoID    = tipoDescuento.getId();
 
-
+                Double descuentomayor = Double.parseDouble(descuentoGl);
 
                 if(nfc.isEmpty()){
                     alertaNFC.setError("El campo NFC es obligatorio");
@@ -372,6 +372,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     return;
                 }else if(descuentoGl.isEmpty()){
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
+                    return;
+                }else if(descuentomayor <= 0.09){
+                    alertDescGalon.setError("El descuento debe ser mayor a 0.10");
                     return;
                 }
 
