@@ -69,12 +69,7 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
         holder.textArticuloID.setText(lClienteAfiliadosList.get(position).getArticuloID());
         holder.textClienteID.setText(lClienteAfiliadosList.get(position).getClienteID());
         holder.textTipoCliente.setText(String.valueOf(lClienteAfiliadosList.get(position).getTipoCliente()));
-        holder.textTipoRango.setText(lClienteAfiliadosList.get(position).getTipoRango());
-        holder.textRango1.setText(String.valueOf(String.format("%.3f",lClienteAfiliadosList.get(position).getRango1())));
-        holder.textRango2.setText(String.valueOf(String.format("%.3f",lClienteAfiliadosList.get(position).getRango2())));
         holder.textClienteRZ.setText(lClienteAfiliadosList.get(position).getClienteRZ());
-        holder.textNroPlaca.setText(String.valueOf(lClienteAfiliadosList.get(position).getNroPlaca()));
-        holder.textTipoDescuento.setText(lClienteAfiliadosList.get(position).getTipoDescuento());
         holder.textMontoDescuento.setText(String.valueOf(String.format("%.2f",lClienteAfiliadosList.get(position).getMontoDescuento())));
 
         holder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.white));
@@ -132,12 +127,7 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
         private TextView textArticuloID;
         private TextView textClienteID;
         private TextView textTipoCliente;
-        private TextView textTipoRango;
-        private TextView textRango1;
-        private TextView textRango2;
         private TextView textClienteRZ;
-        private TextView textNroPlaca;
-        private TextView textTipoDescuento;
         private TextView textMontoDescuento;
 
 
@@ -148,12 +138,7 @@ public class LRegistroClienteAdapter extends RecyclerView.Adapter<LRegistroClien
             textArticuloID      = itemView.findViewById(R.id.textArticuloID);
             textClienteID       = itemView.findViewById(R.id.textClienteID);
             textTipoCliente     = itemView.findViewById(R.id.textTipoCliente);
-            textTipoRango       = itemView.findViewById(R.id.textTipoRango);
-            textRango1          = itemView.findViewById(R.id.textRango1);
-            textRango2          = itemView.findViewById(R.id.textRango2);
             textClienteRZ       = itemView.findViewById(R.id.textClienteRZ);
-            textNroPlaca        = itemView.findViewById(R.id.textNroPlaca);
-            textTipoDescuento   = itemView.findViewById(R.id.textTipoDescuento);
             textMontoDescuento  = itemView.findViewById(R.id.textMontoDescuento);
         }
     }

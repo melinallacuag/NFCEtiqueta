@@ -373,8 +373,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 }else if(descuentoGl.isEmpty()){
                     alertDescGalon.setError("El campo Descuento x Galon es obligatorio");
                     return;
-                }else if(descuentomayor <= 0.09){
-                    alertDescGalon.setError("El descuento debe ser mayor a 0.10");
+                }else if(descuentomayor < 0.01){
+                    alertDescGalon.setError("El descuento debe ser mayor a 0.01");
                     return;
                 }
 
