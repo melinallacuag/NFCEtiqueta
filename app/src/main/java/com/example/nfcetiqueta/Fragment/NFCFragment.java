@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -339,6 +340,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 rgInicial          = input_RangoInicial.getText().toString();
                 rgFinal            = input_RangoFinal.getText().toString();
                 descuentoGl        = input_DescGalon.getText().toString();
+
+                SpinnerTRango.setSelection(0);
+                tipoRango          = (TipoRango) SpinnerTRango.getSelectedItem();
 
                 tipoclienteID      = tipoCliente.getId();
                 tipoRangoID        = tipoRango.getId();
