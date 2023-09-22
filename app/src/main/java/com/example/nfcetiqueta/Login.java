@@ -181,8 +181,9 @@ public class Login extends AppCompatActivity {
                         GlobalInfo.getuserName10 = user.getNames();
                         GlobalInfo.getuserPass10 = user.getPassword();
                         GlobalInfo.getuserLocked10 = user.getLocked();
+                        GlobalInfo.getuserCancelar10 = user.getCancel();
 
-                        if (GlobalInfo.getuserLocked10 == false) {
+                        if (GlobalInfo.getuserLocked10  == false || GlobalInfo.getuserCancelar10 == false) {
                             Toast.makeText( getApplicationContext(), "El Usuario se encuentra bloqueado.", Toast.LENGTH_SHORT).show();
                         }else {
 

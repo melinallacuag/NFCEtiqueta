@@ -39,6 +39,7 @@ public class GlobalInfo {
     public static String  getuserName10;
     public static String  getuserPass10;
     public static Boolean getuserLocked10;
+    public static Boolean getuserCancelar10;
 
     /**
      * Datos del Cliente RUC-DNI
@@ -58,7 +59,8 @@ public class GlobalInfo {
     //public static final String BASE_URL = "http://4-fact.com:8081/";
     //public static final String BASE_URL = "http://192.168.1.227:8081/";
     //public static final String BASE_URL = "http://192.168.1.11:8081/";
-    public static final String BASE_URL = "http://192.168.1.20:8081/";
+    //public static final String BASE_URL = "http://192.168.1.14:8081/";
+    public static final String BASE_URL = "http://192.168.1.245:8081/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);
