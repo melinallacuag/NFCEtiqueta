@@ -56,11 +56,11 @@ public class GlobalInfo {
     /**
      * URL de la APIService
      */
-    //public static final String BASE_URL = "http://4-fact.com:8081/";
+    public static final String BASE_URL = "http://4-fact.com:8081/";
     //public static final String BASE_URL = "http://192.168.1.227:8081/";
     //public static final String BASE_URL = "http://192.168.1.11:8081/";
     //public static final String BASE_URL = "http://192.168.1.14:8081/";
-    public static final String BASE_URL = "http://192.168.1.245:8081/";
+    //public static final String BASE_URL = "http://192.168.1.245:8081/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);
