@@ -723,6 +723,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                     GlobalInfo.getclienteRZ10  = String.valueOf(lClientes.getClienteRZ());
 
+                    GlobalInfo.getclienteRZ10 =  GlobalInfo.getclienteRZ10.replace("?","’");
+
                     inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
 
 
