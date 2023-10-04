@@ -22,14 +22,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,7 +41,6 @@ import com.example.nfcetiqueta.Adapter.LRegistroClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoClienteAdapter;
 import com.example.nfcetiqueta.Adapter.TipoDescuentoAdapter;
 import com.example.nfcetiqueta.Adapter.TipoRangoAdapter;
-import com.example.nfcetiqueta.NFCUtil;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
@@ -53,6 +55,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,6 +102,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     private APIService mAPIService;
 
+    String idTipoCliente;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,8 +111,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         View view = inflater.inflate(R.layout.fragment_n_f_c, container, false);
 
         mAPIService = GlobalInfo.getAPIService();
-
-
 
         btnagregar        = view.findViewById(R.id.btnAgregar);
         btnconsultar      = view.findViewById(R.id.buscarDatoCliente);
@@ -135,6 +138,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         input_DescTipoDescuento = view.findViewById(R.id.input_DescTipoDescuento);
         input_DescGalon         = view.findViewById(R.id.input_DescGalon);
 
+
         /** Componentes de Seleccionar Datos */
         SpinnerTCliente   = view.findViewById(R.id.SpinnerTCliente);
         SpinnerTRango     = view.findViewById(R.id.SpinnerTRango);
@@ -144,6 +148,24 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
          *  Iniciar proceso de detector NFC
          */
         inputNFC.setKeyListener(null);
+
+        /*** Buscar nfc ***/
+        inputNFC.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String nfc = s.toString();
+                buscarClienteAfiliadoPorNFC(nfc);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(getContext());
 
@@ -221,6 +243,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                 tipoCliente = (TipoCliente) parent.getItemAtPosition(position);
                 String descripcionCliente = tipoCliente.getDescripcion();
+
+                idTipoCliente = tipoCliente.getId();
+
                 if (tipoCliente.getId().equals("CON")) {
 
                     input_DescTipoCliente.setText(descripcionCliente);
@@ -401,7 +426,125 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             }
         });
 
+        findCliente(GlobalInfo.getnfcId10, GlobalInfo.getGetIdCompany10);
+
         return view;
+    }
+
+    private void buscarClienteAfiliadoPorNFC(String nfc) {
+        if (lClienteAfiliadosList != null) {
+            for (LClienteAfiliados cliente : lClienteAfiliadosList) {
+                if (cliente.getRfid().equals(nfc)) {
+                    actualizarCampos(cliente);
+                    return;
+                }
+            }
+        }
+        limpiarCampos();
+    }
+
+    private void limpiarCampos() {
+
+        inputPlaca.setText("000-0000");
+        inputRucDni.getText().clear();
+        inputRazonSocial.getText().clear();
+        input_CodProducto.getText().clear();
+        input_DescProducto.getText().clear();
+        input_RangoInicial.setText("0.000");
+        input_RangoFinal.setText("0.000");
+        input_DescGalon.setText("0.00");
+        SpinnerTCliente.setSelection(0);
+        SpinnerTRango.setSelection(0);
+        SpinnerTDescuento.setSelection(0);
+
+        inputRucDni.setEnabled(true);
+        inputRazonSocial.setEnabled(true);
+        input_CodProducto.setEnabled(true);
+        input_DescProducto.setEnabled(true);
+        SpinnerTCliente.setEnabled(true);
+        SpinnerTRango.setEnabled(true);
+        SpinnerTDescuento.setEnabled(true);
+
+        alertRucDni.setBoxBackgroundColorResource(R.color.white);
+        alertRazonSocial.setBoxBackgroundColorResource(R.color.white);
+        alertCodProducto.setBoxBackgroundColorResource(R.color.white);
+        alertDescProducto.setBoxBackgroundColorResource(R.color.white);
+
+    }
+
+    private void actualizarCampos(LClienteAfiliados clienteAfiliado) {
+
+        inputPlaca.setText(clienteAfiliado.getNroPlaca());
+        inputRucDni.setText(clienteAfiliado.getClienteID());
+        inputRazonSocial.setText(clienteAfiliado.getClienteRZ());
+        input_CodProducto.setText(clienteAfiliado.getArticuloID());
+
+        if(clienteAfiliado.getArticuloID().equals("92")){
+            input_DescProducto.setText("GASOHOL REGULAR");
+        }else if (clienteAfiliado.getArticuloID().equals("93")){
+            input_DescProducto.setText("GASOHOL PREMIUM");
+        }else if(clienteAfiliado.getArticuloID().equals("07")){
+            input_DescProducto.setText("GLP");
+        }else if(clienteAfiliado.getArticuloID().equals("05")){
+            input_DescProducto.setText("DIESEL DB5");
+        }
+        input_RangoInicial.setText(String.valueOf(clienteAfiliado.getRango1()));
+        input_RangoFinal.setText(String.valueOf(clienteAfiliado.getRango2()));
+        input_DescGalon.setText(String.valueOf(clienteAfiliado.getMontoDescuento()));
+
+        if(clienteAfiliado.getTipoCliente().equals("CON")){
+            SpinnerTCliente.setSelection(0);
+        } else if(clienteAfiliado.getTipoCliente().equals("CRE")){
+            SpinnerTCliente.setSelection(1);
+        }
+
+        SpinnerTRango.setSelection(0);
+
+        if(clienteAfiliado.getTipoCliente().equals("DES")){
+            SpinnerTDescuento.setSelection(0);
+        } else if(clienteAfiliado.getTipoCliente().equals("PRE")){
+            SpinnerTDescuento.setSelection(1);
+        }
+
+        inputRucDni.setEnabled(false);
+        inputRazonSocial.setEnabled(false);
+        input_CodProducto.setEnabled(false);
+        input_DescProducto.setEnabled(false);
+        SpinnerTCliente.setEnabled(false);
+        SpinnerTRango.setEnabled(false);
+        SpinnerTDescuento.setEnabled(false);
+
+        alertRucDni.setBoxBackgroundColorResource(R.color.colornew);
+        alertRazonSocial.setBoxBackgroundColorResource(R.color.colornew);
+        alertCodProducto.setBoxBackgroundColorResource(R.color.colornew);
+        alertDescProducto.setBoxBackgroundColorResource(R.color.colornew);
+
+    }
+
+    private void findCliente(String nfcId, Integer comapyId) {
+        Call<List<LClienteAfiliados>> call = mAPIService.findClienteAfiliado(nfcId,comapyId);
+
+        call.enqueue(new Callback<List<LClienteAfiliados>>() {
+            @Override
+            public void onResponse(Call<List<LClienteAfiliados>> call, Response<List<LClienteAfiliados>> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Codigo de error: " + response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                lClienteAfiliadosList = response.body();
+
+                if (lRegistroClienteAdapter != null) {
+                    lRegistroClienteAdapter.updateData(lClienteAfiliadosList);
+                    lRegistroClienteAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LClienteAfiliados>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión APICORE Lista Cliente - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean verificarNFCRegistrado(String nfc, String rucdni) {
@@ -462,6 +605,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     SpinnerTCliente.setSelection(0);
                     SpinnerTRango.setSelection(0);
                     SpinnerTDescuento.setSelection(0);
+
+                    findCliente(GlobalInfo.getnfcId10, GlobalInfo.getGetIdCompany10);
 
                 }catch (Exception ex){
                     Toast.makeText(getContext(), ex.getMessage(), Toast.LENGTH_SHORT).show();
@@ -656,5 +801,11 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             sb.append(String.format("%02X", b));
         }
         return sb.toString();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Liberar recursos aquí
     }
 }
