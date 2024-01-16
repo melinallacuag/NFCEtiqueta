@@ -102,7 +102,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     private APIService mAPIService;
 
-    String idTipoCliente;
+    String idTipoCliente, idTipoDescuento;
 
 
     @Override
@@ -300,8 +300,12 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         SpinnerTDescuento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 tipoDescuento = (TipoDescuento) parent.getItemAtPosition(position);
                 String descripcionDescuento = tipoDescuento.getDescripcion();
+
+                idTipoDescuento = tipoDescuento.getId();
+
                 if (tipoDescuento.getId().equals("DES")) {
 
                     input_DescTipoDescuento.setText(descripcionDescuento);
@@ -500,9 +504,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         SpinnerTRango.setSelection(0);
 
-        if(clienteAfiliado.getTipoCliente().equals("DES")){
+        if(clienteAfiliado.getTipoDescuento().equals("DES")){
             SpinnerTDescuento.setSelection(0);
-        } else if(clienteAfiliado.getTipoCliente().equals("PRE")){
+        } else if(clienteAfiliado.getTipoDescuento().equals("PRE")){
             SpinnerTDescuento.setSelection(1);
         }
 
