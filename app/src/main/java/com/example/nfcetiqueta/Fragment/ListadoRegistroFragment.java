@@ -68,6 +68,7 @@ public class ListadoRegistroFragment extends Fragment {
         /** Datos para mostrar lista */
         findClienteAfiliado(GlobalInfo.getnfcId10 ,GlobalInfo.getGetIdCompany10);
 
+        BuscarRazonSocial.setIconifiedByDefault(false);
         /** Buscador por Razon Social */
         BuscarRazonSocial.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

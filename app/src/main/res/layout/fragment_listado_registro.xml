@@ -33,7 +33,7 @@
             android:layout_marginTop="5sp"
             android:background="@drawable/input_border"
             android:inputType="textCapCharacters"
-            app:queryHint="Buscar Razon Social" />
+            app:queryHint="Buscar Razón Social" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardtransaccion"
