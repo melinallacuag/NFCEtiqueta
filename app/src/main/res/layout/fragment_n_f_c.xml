@@ -169,17 +169,19 @@
                 android:layout_width="300sp"
                 android:layout_height="wrap_content"
                 android:hint="Código Producto"
-                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#E4E4E4"
+                android:layout_marginRight="10sp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
-                app:endIconMode="clear_text"
-                android:layout_marginEnd="10sp"
-                android:layout_weight="1">
+                android:allowClickWhenDisabled="true"
+                android:layout_weight="1"
+                android:layout_marginBottom="5sp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_CodProducto"
                     android:textSize="12sp"
+                    android:focusable="false"
                     android:inputType="textCapCharacters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -191,17 +193,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Descripción"
-                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#E4E4E4"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
-                android:layout_marginBottom="5sp"
-                app:endIconMode="clear_text"
-                android:layout_weight="1">
+                android:allowClickWhenDisabled="true"
+                android:layout_weight="1"
+                android:layout_marginBottom="5sp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_DescProducto"
                     android:textSize="12sp"
+                    android:focusable="false"
                     android:inputType="textCapCharacters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -478,17 +481,81 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btnAgregar"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:layout_gravity="center"
-                android:layout_margin="2sp"
-                android:text="Agregar"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                app:cornerRadius="10sp" />
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/btnGuardar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5sp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorSuccess"
+                    android:background="@drawable/input_border"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    app:cornerRadius="10sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guardar"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="5sp"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="10sp"
+                        android:src="@drawable/icons_guardar"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnAgregar"
+                    android:layout_width="280sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5sp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorNer"
+                    android:background="@drawable/input_border"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    app:cornerRadius="10sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="AGREGAR"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="5sp"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="10sp"
+                        android:src="@drawable/icons_masproductos"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

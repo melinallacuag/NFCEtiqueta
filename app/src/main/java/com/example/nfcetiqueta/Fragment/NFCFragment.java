@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -79,7 +80,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             descripcion_prodcuto,codigo_producto,
             tipoclienteID,tipoRangoID,tipoDescuentoID;
 
-    Button btnagregar,btnconsultar,btncancelar;
+    Button btnconsultar,btncancelar;
+
+    LinearLayout btnGuardar,btnagregar;
 
     Dialog modalProducto;
     LProductosAdapter lProductosAdapter;
@@ -113,6 +116,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         mAPIService = GlobalInfo.getAPIService();
 
         btnagregar        = view.findViewById(R.id.btnAgregar);
+        btnGuardar        = view.findViewById(R.id.btnGuardar);
         btnconsultar      = view.findViewById(R.id.buscarDatoCliente);
 
         alertaNFC         = view.findViewById(R.id.textNFC);
@@ -143,6 +147,8 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         SpinnerTCliente   = view.findViewById(R.id.SpinnerTCliente);
         SpinnerTRango     = view.findViewById(R.id.SpinnerTRango);
         SpinnerTDescuento = view.findViewById(R.id.SpinnerTDescuento);
+
+        btnagregar.setVisibility(View.GONE);
 
         /**
          *  Iniciar proceso de detector NFC
@@ -356,7 +362,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         /**
          *  Proceso para Agregar un Nuevo Cliente Afiliado - Descuento
          */
-        btnagregar.setOnClickListener(new View.OnClickListener() {
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -430,6 +436,23 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             }
         });
 
+        /**
+         *
+         */
+        btnagregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                input_CodProducto.getText().clear();
+                input_DescProducto.getText().clear();
+
+                input_CodProducto.setEnabled(true);
+                input_DescProducto.setEnabled(true);
+
+                input_DescGalon.setText("0.00");
+            }
+        });
+
         findCliente(GlobalInfo.getnfcId10, GlobalInfo.getGetIdCompany10);
 
         return view;
@@ -440,11 +463,13 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
             for (LClienteAfiliados cliente : lClienteAfiliadosList) {
                 if (cliente.getRfid().equals(nfc)) {
                     actualizarCampos(cliente);
+                    btnagregar.setVisibility(View.VISIBLE);
                     return;
                 }
             }
         }
         limpiarCampos();
+        btnagregar.setVisibility(View.GONE);
     }
 
     private void limpiarCampos() {
@@ -471,8 +496,6 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
         alertRucDni.setBoxBackgroundColorResource(R.color.white);
         alertRazonSocial.setBoxBackgroundColorResource(R.color.white);
-        alertCodProducto.setBoxBackgroundColorResource(R.color.white);
-        alertDescProducto.setBoxBackgroundColorResource(R.color.white);
 
     }
 
@@ -652,6 +675,12 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                             input_DescProducto.setText(descripcion_prodcuto);
                             input_CodProducto.setText(codigo_producto);
+
+                            if (!codigo_producto.equals("07")){
+                                input_DescGalon.setText("0.20");
+                            }else{
+                                input_DescGalon.setText("0.10");
+                            }
 
                             modalProducto.dismiss();
                         }
