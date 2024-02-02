@@ -60,9 +60,10 @@ public class GlobalInfo {
     //public static final String BASE_URL = "http://192.168.1.227:8081/";
     //public static final String BASE_URL = "http://192.168.1.11:8081/";
     //public static final String BASE_URL = "http://192.168.1.14:8081/";
-    //public static final String BASE_URL = "http://192.168.1.245:8081/";
+    public static final String BASE_URL = "http://192.168.1.245:8081/";
     //public static final String BASE_URL = "http://192.168.18.43:8081/";
-    public static final String BASE_URL = "http://192.168.18.33:8081/";
+    //public static final String BASE_URL = "http://192.168.18.33:8081/";
+    //public static final String BASE_URL = "http://192.168.1.19:8081/";
 
     public static APIService getAPIService() {
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);
