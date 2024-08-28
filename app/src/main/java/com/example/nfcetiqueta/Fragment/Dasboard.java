@@ -9,6 +9,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,7 @@ import java.io.File;
 public class Dasboard extends Fragment {
 
     TextView nombre_grifero,nombre_empresa,sucursal_empresa,slogan_empresa;
-    CardView btn_Registrar,btn_Listado,btn_Salir;
+    CardView btn_Registrar,btn_Listado,btn_Salir,btn_RegistrarPuntos,btn_ListadoPuntos;
     Button btncancelarsalida,btnsalir;
     Dialog modalSalir;
     ShapeableImageView img_Logo;
@@ -49,28 +51,85 @@ public class Dasboard extends Fragment {
         sucursal_empresa  = view.findViewById(R.id.sucursal_empresa);
         slogan_empresa    = view.findViewById(R.id.slogan_empresa);
         btn_Registrar     = view.findViewById(R.id.btn_Registrar);
+        btn_RegistrarPuntos   = view.findViewById(R.id.btn_RegistrarPuntos);
         btn_Listado       = view.findViewById(R.id.btn_Listado);
         btn_Salir         = view.findViewById(R.id.btnSalir);
         img_Logo          = view.findViewById(R.id.logo_dashboard);
+        btn_ListadoPuntos = view.findViewById(R.id.btn_ListadoPuntos);
 
         /** Nombre del usuario logeado */
         nombre_grifero.setText(GlobalInfo.getuserName10);
 
-        /** Mostrar logo de la empresa */
-        File file = new File("/storage/emulated/0/appSven/logo.jpg");
-        String rutaImagen="/storage/emulated/0/appSven/logo.jpg";
-        if(!file.exists()){
-            rutaImagen = "/storage/emulated/0/appSven/logo.png";
-        }
-        Uri logoUri = Uri.parse("file://" + rutaImagen);
-        img_Logo.setImageURI(logoUri);
+        /**
+         * @MOSTRAR:LogoEmpresa_Dasboard
+         */
+        String rutaImagen = "/storage/emulated/0/appSven/";
 
-        /** Mostrar datos de la Compania */
-        String DirSucursal = (GlobalInfo.getBranchCompany10 != null) ? GlobalInfo.getBranchCompany10 : "";
-        DirSucursal = DirSucursal.replace("-","");
-        nombre_empresa.setText(GlobalInfo.getNameCompany10);
-        sucursal_empresa.setText(DirSucursal);
-        slogan_empresa.setText(GlobalInfo.getSloganCompany10);
+        String nameRuta = "logo.jpg";
+
+        if (!TextUtils.isEmpty(nameRuta)) {
+            rutaImagen += nameRuta;
+            File file = new File(rutaImagen);
+            if (!file.exists()) {
+                rutaImagen = "/storage/emulated/0/appSven/sinlogo.jpg";
+            }
+        } else {
+            rutaImagen += "sinlogo.jpg";
+        }
+
+        Uri imagenProd = Uri.parse("file://" + rutaImagen);
+        img_Logo.setImageURI(imagenProd);
+
+        /**
+         * @OBTENER:DatoGeneralCompania
+         */
+        String DirSucursal = "";
+        if (GlobalInfo.getBranchCompany10 != null && !GlobalInfo.getBranchCompany10.isEmpty()) {
+            DirSucursal = GlobalInfo.getBranchCompany10.replace("-", "");
+            sucursal_empresa.setText(DirSucursal);
+        } else {
+
+            if (GlobalInfo.getAddressCompany10 != null && !GlobalInfo.getAddressCompany10.isEmpty()) {
+                DirSucursal = GlobalInfo.getAddressCompany10.replace("-", "");
+                sucursal_empresa.setText(DirSucursal);
+            }else {
+                sucursal_empresa.setText("");
+            }
+
+        }
+
+        String NameCompany = "";
+        if (GlobalInfo.getNameCompany10 != null && !GlobalInfo.getNameCompany10.isEmpty()) {
+            NameCompany = GlobalInfo.getNameCompany10;
+            nombre_empresa.setText(NameCompany);
+        } else {
+            nombre_empresa.setText("");
+        }
+
+        String SloganCompany = "";
+        if (GlobalInfo.getSloganCompany10 != null && !GlobalInfo.getSloganCompany10.isEmpty()) {
+            SloganCompany = GlobalInfo.getSloganCompany10;
+            slogan_empresa.setText(SloganCompany);
+        } else {
+            slogan_empresa.setText("");
+        }
+
+        /** **/
+        btn_RegistrarPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentManager fragmentManagerRegistrarPuntos = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransactionRegistrarPuntos = fragmentManagerRegistrarPuntos.beginTransaction();
+                int fragmentContainerRegistrar = R.id.fragment_container;
+                PuntosFragment puntosFragment = new PuntosFragment();
+
+                fragmentTransactionRegistrarPuntos.replace(fragmentContainerRegistrar, puntosFragment);
+                fragmentTransactionRegistrarPuntos.addToBackStack(null);
+                fragmentTransactionRegistrarPuntos.commit();
+
+            }
+        });
 
         /** Ir a la Pantalla - Registrar Clientes Afiliados */
         btn_Registrar.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +162,20 @@ public class Dasboard extends Fragment {
                 fragmentTransactionListado.addToBackStack(null);
                 fragmentTransactionListado.commit();
 
+            }
+        });
+
+        btn_ListadoPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManagerListaPuntos = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransactionListaPunto = fragmentManagerListaPuntos.beginTransaction();
+                int fragmentContainerListaPunto = R.id.fragment_container;
+                ListaPuntosFragment listaPuntosFragment = new ListaPuntosFragment();
+
+                fragmentTransactionListaPunto.replace(fragmentContainerListaPunto, listaPuntosFragment);
+                fragmentTransactionListaPunto.addToBackStack(null);
+                fragmentTransactionListaPunto.commit();
             }
         });
 

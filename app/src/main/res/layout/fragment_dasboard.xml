@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5sp"
         android:layout_weight="2"
-        android:columnCount="1"
+        android:columnCount="2"
         android:rowCount="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +112,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/btn_Registrar"
             android:layout_width="wrap_content"
-            android:layout_height="165sp"
+            android:layout_height="180sp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5sp"
@@ -130,8 +130,9 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
+                    android:id="@+id/imageee"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
                     android:src="@drawable/ic_registration"
                     android:layout_marginBottom="2sp" />
 
@@ -141,10 +142,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_black"
                     android:letterSpacing="0.15"
-                    android:text="Registrar Clientes Afiliados"
                     android:textAlignment="center"
+                    android:text="Registrar Clientes con Descuento"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -152,9 +153,52 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/btn_RegistrarPuntos"
+            android:layout_width="wrap_content"
+            android:layout_height="180sp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5sp"
+            android:layout_marginBottom="5sp"
+            android:clickable="true"
+            android:foreground="@drawable/selectcard"
+            app:cardBackgroundColor="@color/colorSuccess"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2sp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:src="@drawable/ic_registration"
+                    android:layout_marginBottom="2sp" />
+
+                <TextView
+                    android:id="@+id/ciere_x"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_black"
+                    android:letterSpacing="0.15"
+                    android:text="Registro de Afiliación de Puntos"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
             android:id="@+id/btn_Listado"
             android:layout_width="wrap_content"
-            android:layout_height="165sp"
+            android:layout_height="180sp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="5dp"
@@ -170,28 +214,72 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
+
                 <ImageView
-                    android:layout_width="80sp"
-                    android:layout_height="80sp"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
                     android:src="@drawable/ic_list"
                     android:layout_marginBottom="2sp" />
 
                 <TextView
-                    android:id="@+id/listado"
+                    android:id="@+id/cambio_turno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito_black"
                     android:letterSpacing="0.15"
-                    android:text="Lista de Clientes Afiliados"
+                    android:text="Lista de Clientes con Descuento"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btn_ListadoPuntos"
+            android:layout_width="wrap_content"
+            android:layout_height="180sp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="10dp"
+            android:clickable="true"
+            android:foreground="@drawable/selectcard"
+            app:cardBackgroundColor="@color/teal_700"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="2sp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:src="@drawable/ic_list"
+                    android:layout_marginBottom="2sp" />
+
+                <TextView
+                    android:id="@+id/cierre_z"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_black"
+                    android:letterSpacing="0.15"
+                    android:text="Lista de Clientes con Puntos"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
     </GridLayout>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btnSalir"

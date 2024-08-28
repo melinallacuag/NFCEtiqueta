@@ -132,7 +132,7 @@ public class Login extends AppCompatActivity {
                                 GlobalInfo.getNameCompany10    = lCompany.getNames();
                                 GlobalInfo.getBranchCompany10  = lCompany.getBranch();
                                 GlobalInfo.getSloganCompany10  = lCompany.getEslogan();
-
+                                GlobalInfo.getAddressCompany10 = lCompany.getAddress();
                             }
 
                         }

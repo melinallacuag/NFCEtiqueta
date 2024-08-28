@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragment.NFCFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="10sp"
+            android:padding="10sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="#031D37"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:layout_marginBottom="5sp"
+                android:text="Registrar Clientes con Puntos"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textNFC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Detectar la Etiqueta NFC"
+                app:boxBackgroundColor="#E4E4E4"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                android:allowClickWhenDisabled="true"
+                android:layout_marginBottom="5sp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_EtiquetaNFC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textPlaca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresar Placa"
+                app:boxBackgroundMode="outline"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:endIconMode="clear_text"
+                android:layout_marginBottom="5sp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_Placa"
+                    android:textSize="12sp"
+                    android:text="000-0000"
+                    android:inputType="textCapCharacters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="12sp"
+                android:textColor="#031D37"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:layout_marginBottom="5sp"
+                android:text="Datos del Cliente :"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_RUC_DNI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ingresar DNI / RUC"
+                    android:layout_weight="1"
+                    app:boxBackgroundMode="outline"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxCornerRadiusBottomEnd="15dp"
+                    app:boxCornerRadiusTopEnd="15dp"
+                    app:endIconMode="clear_text"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="11"
+                    android:layout_marginBottom="5sp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_ruc_dni"
+                        android:textSize="12sp"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/buscarDatoCliente"
+                    android:layout_width="250sp"
+                    android:layout_height="60sp"
+                    android:layout_weight="1"
+                    android:text="Consultar"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:layout_marginStart="10sp"
+                    android:layout_marginLeft="10sp"
+                    app:cornerRadius="10sp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_RazonSocial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresar Razon Social"
+                app:boxBackgroundMode="outline"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:endIconMode="clear_text"
+                android:layout_marginBottom="5sp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_RazonSocial"
+                    android:textSize="12sp"
+                    android:inputType="textCapCharacters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textSize="12sp"
+                android:textColor="#031D37"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:layout_marginBottom="5sp"
+                android:text="Producto :"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="5sp"
+                android:layout_marginBottom="10sp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerProductoPunto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/btnGuardar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5sp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorSuccess"
+                    android:background="@drawable/input_border"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    app:cornerRadius="10sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guardar"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="5sp"
+                        android:textStyle="bold"
+                        android:textSize="12sp"/>
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="10sp"
+                        android:src="@drawable/icons_guardar"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,6 +1,7 @@
 package com.example.nfcetiqueta.WebApiSVEN.Controllers;
 
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClienteAfiliados;
+import com.example.nfcetiqueta.WebApiSVEN.Models.LClientePuntos;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
@@ -106,5 +107,53 @@ public interface APIService {
 
     @POST("api/ClientePrecio/Eliminar/{RFID}/{CompanyID}/{ArticuloID}")
     Call<LClienteAfiliados> postClienteAfiliadosEliminado(@Path("RFID") String RFID,@Path("CompanyID") Integer CompanyID,@Path("ArticuloID") String ArticuloID);
+
+    /**
+     * @ClientePuntos-Guardar
+     * @GuardarClientesPuntos
+     */
+    @POST("api/ClientePuntos/Guardar")
+    Call<LClientePuntos> postClientePuntos(@Body LClientePuntos lClientePuntos);
+
+    /**
+     * @ClientePuntos-Listado
+     * @ListadoClientesPuntos
+     */
+
+    @GET("api/ClientePuntos/Listado/{RFID}/{CompanyId}")
+    Call<List<LClientePuntos>> findClientePuntos(@Path("RFID") String RFID,@Path("CompanyId") Integer CompanyId);
+
+    /**
+     * @ClientePuntos-Eliminar
+     * @EliminarClientesPuntos
+     */
+
+    @POST("api/ClientePuntos/Eliminar/{RFID}/{ClienteID}/{CompanyID}/{UserID}")
+    Call<LClientePuntos> postClientePuntosEliminado(@Path("RFID") String RFID,@Path("ClienteID") String ClienteID,@Path("CompanyID") Integer CompanyID,@Path("UserID") Integer UserID);
+
+    /**
+     * @ClientePuntos-UpdateStatus
+     * @EliminarClientesPuntos
+     */
+
+    @POST("api/ClientePuntos/UpdateStatus/{RFID}/{ClienteID}/{CompanyID}/{Status}")
+    Call<LClientePuntos> postClientePuntosUpdateStatus(@Path("RFID") String RFID,@Path("ClienteID") String ClienteID,@Path("CompanyID") Integer CompanyID,@Path("Status") Boolean Status);
+
+
+    /**
+     * @ClientePuntos-Listado
+     * @ListadoClientesPuntos
+     */
+
+    @GET("api/ClientePuntos/Listado2/{RFID}/{ClienteID}/{CompanyId}")
+    Call<List<LClientePuntos>> findClienteArticulosPuntos(@Path("RFID") String RFID,@Path("ClienteID") String ClienteID,@Path("CompanyId") Integer CompanyId);
+
+    /**
+     * @ClientePuntos-Eliminar2
+     * @EliminarClientesPuntos
+     */
+
+    @POST("api/ClientePuntos/Eliminar2/{RFID}/{ClienteID}/{CompanyID}/{UserID}")
+    Call<LClientePuntos> postClientePuntosEliminado2(@Path("RFID") String RFID,@Path("ClienteID") String ClienteID,@Path("CompanyID") Integer CompanyID,@Path("UserID") Integer UserID);
 
 }
