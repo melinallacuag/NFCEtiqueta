@@ -82,7 +82,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
     Button btnconsultar,btncancelar;
 
-    LinearLayout btnGuardar,btnagregar;
+    LinearLayout btnGuardar,btnagregar,btnLimpiarDes;
 
     Dialog modalProducto;
     LProductosAdapter lProductosAdapter;
@@ -118,6 +118,7 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         btnagregar        = view.findViewById(R.id.btnAgregar);
         btnGuardar        = view.findViewById(R.id.btnGuardar);
         btnconsultar      = view.findViewById(R.id.buscarDatoCliente);
+        btnLimpiarDes     = view.findViewById(R.id.btnLimpiarDes);
 
         alertaNFC         = view.findViewById(R.id.textNFC);
         alertPlaca        = view.findViewById(R.id.textPlaca);
@@ -142,6 +143,37 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
         input_DescTipoDescuento = view.findViewById(R.id.input_DescTipoDescuento);
         input_DescGalon         = view.findViewById(R.id.input_DescGalon);
 
+        /**
+         *
+         */
+        btnLimpiarDes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputNFC.getText().clear();
+                inputPlaca.setText("000-0000");
+                inputRucDni.getText().clear();
+                inputRazonSocial.getText().clear();
+                input_CodProducto.getText().clear();
+                input_DescProducto.getText().clear();
+                input_RangoInicial.setText("0.000");
+                input_RangoFinal.setText("0.000");
+                input_DescGalon.setText("0.00");
+                SpinnerTCliente.setSelection(0);
+                SpinnerTRango.setSelection(0);
+                SpinnerTDescuento.setSelection(0);
+
+                inputRucDni.setEnabled(true);
+                inputRazonSocial.setEnabled(true);
+                input_CodProducto.setEnabled(true);
+                input_DescProducto.setEnabled(true);
+                SpinnerTCliente.setEnabled(true);
+                SpinnerTRango.setEnabled(true);
+                SpinnerTDescuento.setEnabled(true);
+
+                alertRucDni.setBoxBackgroundColorResource(R.color.white);
+                alertRazonSocial.setBoxBackgroundColorResource(R.color.white);
+            }
+        });
 
         /** Componentes de Seleccionar Datos */
         SpinnerTCliente   = view.findViewById(R.id.SpinnerTCliente);
@@ -468,7 +500,9 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                 }
             }
         }
-        limpiarCampos();
+        if(GlobalInfo.getsettingDescuentoRFID10 != 0){
+            limpiarCampos();
+        }
         btnagregar.setVisibility(View.GONE);
     }
 
@@ -633,6 +667,19 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     SpinnerTRango.setSelection(0);
                     SpinnerTDescuento.setSelection(0);
 
+                    inputRucDni.setEnabled(true);
+                    inputRazonSocial.setEnabled(true);
+                    inputRucDni.setEnabled(true);
+                    inputRazonSocial.setEnabled(true);
+                    input_CodProducto.setEnabled(true);
+                    input_DescProducto.setEnabled(true);
+                    SpinnerTCliente.setEnabled(true);
+                    SpinnerTRango.setEnabled(true);
+                    SpinnerTDescuento.setEnabled(true);
+
+                    alertRucDni.setBoxBackgroundColorResource(R.color.white);
+                    alertRazonSocial.setBoxBackgroundColorResource(R.color.white);
+
                     findCliente(GlobalInfo.getnfcId10, GlobalInfo.getGetIdCompany10);
 
                 }catch (Exception ex){
@@ -723,6 +770,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
 
                     inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
 
+                    if(GlobalInfo.getsettingDescuentoRFID10 == 0){
+                        inputNFC.setText(id);
+                    }
+
                 }catch (Exception ex){
                     Toast.makeText(getContext(),ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -759,6 +810,10 @@ public class NFCFragment extends Fragment implements NfcAdapter.ReaderCallback {
                     GlobalInfo.getclienteRZ10 =  GlobalInfo.getclienteRZ10.replace("?","’");
 
                     inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
+
+                    if(GlobalInfo.getsettingDescuentoRFID10 == 0){
+                        inputNFC.setText(id);
+                    }
 
 
                 }catch (Exception ex){

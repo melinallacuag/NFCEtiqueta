@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.nfcetiqueta.Adapter.LCompanyAdapter;
 import com.example.nfcetiqueta.WebApiSVEN.Controllers.APIService;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
+import com.example.nfcetiqueta.WebApiSVEN.Models.Setting;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
@@ -42,6 +43,8 @@ public class Login extends AppCompatActivity {
     private APIService mAPIService;
 
     private NFCUtil nfcUtil;
+
+    List<Setting> settingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +97,42 @@ public class Login extends AppCompatActivity {
         getTipoDescuento();
     }
 
+    /**
+     * @APISERVICE:Setting
+     */
+    private void findSetting(Integer id){
+
+        Call<List<Setting>> call = mAPIService.findSetting(id);
+
+        call.enqueue(new Callback<List<Setting>>() {
+            @Override
+            public void onResponse(Call<List<Setting>> call, Response<List<Setting>> response) {
+                try {
+
+                    if(!response.isSuccessful()){
+                        Toast.makeText(getApplicationContext(), "Codigo de error Setting: " + response.code(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    settingList = response.body();
+
+                    for(Setting setting: settingList) {
+                        GlobalInfo.getsettingDescuentoRFID10   = setting.getDescuentoRFID();
+                    }
+
+                }catch (Exception ex){
+                    Toast.makeText(getApplicationContext(),ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Setting>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error de conexión APICORE Setting - RED - WIFI", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
     /** API SERVICE - Empresa */
     private void getCompany(){
 
@@ -126,6 +165,9 @@ public class Login extends AppCompatActivity {
                             lCompany = (LCompany) parent.getItemAtPosition(position);
 
                                 GlobalInfo.getGetIdCompany10   = lCompany.getCompanyID();
+
+                            findSetting(GlobalInfo.getGetIdCompany10);
+
 
                             if (lCompany.getCompanyID().equals(GlobalInfo.getGetIdCompany10)) {
 
@@ -172,35 +214,37 @@ public class Login extends AppCompatActivity {
 
                     usersList = response.body();
 
-                    if (usersList != null && !usersList.isEmpty()) {
+                    if (usersList == null || usersList.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Usuario no encontrado.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                        Users user = usersList.get(0);
+                    Users user = usersList.get(0);
 
-                        inputUsuario.setText(user.getUserID());
-                        GlobalInfo.getuserID10 = user.getUserID();
-                        GlobalInfo.getuserName10 = user.getNames();
-                        GlobalInfo.getuserPass10 = user.getPassword();
-                        GlobalInfo.getuserLocked10 = user.getLocked();
-                        GlobalInfo.getuserCancelar10 = user.getCancel();
+                    inputUsuario.setText(user.getUserID());
+                    GlobalInfo.getuserID10     = user.getUserID();
+                    GlobalInfo.getuserName10   = user.getNames();
+                    GlobalInfo.getuserPass10   = user.getPassword();
+                    GlobalInfo.getuserSuper10  = user.getSuper();
+                    GlobalInfo.getuserLocked10 = user.getLocked();
+                    GlobalInfo.getuserAfiliar10 = user.getAfiliar();
 
-                        if (GlobalInfo.getuserLocked10  == false || GlobalInfo.getuserCancelar10 == false) {
-                            Toast.makeText( getApplicationContext(), "El Usuario se encuentra bloqueado.", Toast.LENGTH_SHORT).show();
-                        }else {
+                    String getName = (usuarioUser != null) ? usuarioUser.trim() : "";
+                    String getPass = (contraseñaUser != null) ? checkpassword(contraseñaUser.trim()) : "";
 
-                            String getName = usuarioUser.trim();
-                            String getPass = checkpassword(contraseñaUser.trim());
-
-                            if(getName.equals(GlobalInfo.getuserID10) && getPass.equals(GlobalInfo.getuserPass10)){
+                    if(getName.equals(GlobalInfo.getuserID10) && getPass.equals(GlobalInfo.getuserPass10)){
+                        if(GlobalInfo.getuserLocked10){
+                            if(GlobalInfo.getuserAfiliar10 || GlobalInfo.getuserSuper10){
                                 Toast.makeText( getApplicationContext(), "Bienvenido al Sistema SVEN", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent( getApplicationContext(),Menu.class));
+                                startActivity(new Intent(getApplicationContext(), Menu.class));
+                            }else{
+                                Toast.makeText(getApplicationContext(), "No tiene permisos para ingresar al sistema de afiliación.", Toast.LENGTH_SHORT).show();
                             }
-                            else {
-                                Toast.makeText( getApplicationContext(), "El usuario o la contraseña son incorrectos", Toast.LENGTH_SHORT).show();
-                            }
-
+                        }else{
+                            Toast.makeText( getApplicationContext(), "El Usuario se encuentra bloqueado.", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "El Usuario o la Contraseña son incorrectos", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText( getApplicationContext(), "El usuario o la contraseña son incorrectos", Toast.LENGTH_SHORT).show();
                     }
 
                 }catch (Exception ex){

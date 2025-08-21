@@ -49,27 +49,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textPlaca"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ingresar Placa"
-                app:boxBackgroundMode="outline"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomEnd="15dp"
-                app:boxCornerRadiusTopEnd="15dp"
-                app:endIconMode="clear_text"
-                android:layout_marginBottom="5sp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_Placa"
-                    android:textSize="12sp"
-                    android:text="000-0000"
-                    android:inputType="textCapCharacters"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
 
             <TextView
@@ -142,6 +121,28 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_RazonSocial"
                     android:textSize="12sp"
+                    android:inputType="textCapCharacters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textPlaca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresar Placa"
+                app:boxBackgroundMode="outline"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:endIconMode="clear_text"
+                android:layout_marginBottom="5sp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_Placa"
+                    android:textSize="12sp"
+                    android:text="000-0000"
                     android:inputType="textCapCharacters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -509,7 +510,7 @@
                         android:layout_marginStart="5sp"
                         android:layout_marginEnd="5sp"
                         android:textStyle="bold"
-                        android:textSize="12sp"/>
+                        android:textSize="10sp"/>
 
                     <ImageView
                         android:layout_width="25dp"
@@ -522,7 +523,7 @@
 
                 <LinearLayout
                     android:id="@+id/btnAgregar"
-                    android:layout_width="280sp"
+                    android:layout_width="290sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="5sp"
@@ -544,7 +545,7 @@
                         android:layout_marginStart="5sp"
                         android:layout_marginEnd="5sp"
                         android:textStyle="bold"
-                        android:textSize="12sp"/>
+                        android:textSize="10sp"/>
 
                     <ImageView
                         android:layout_width="25dp"
@@ -552,6 +553,36 @@
                         android:layout_marginEnd="10sp"
                         android:src="@drawable/icons_masproductos"
                         app:tint="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/btnLimpiarDes"
+                    android:layout_width="260sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5sp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/gris"
+                    android:background="@drawable/input_border"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    app:cornerRadius="10sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="5sp"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:gravity="center"
+                        android:text="Limpiar"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

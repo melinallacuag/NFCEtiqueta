@@ -49,28 +49,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textPlaca"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ingresar Placa"
-                app:boxBackgroundMode="outline"
-                android:layout_weight="1"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomEnd="15dp"
-                app:boxCornerRadiusTopEnd="15dp"
-                app:endIconMode="clear_text"
-                android:layout_marginBottom="5sp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_Placa"
-                    android:textSize="12sp"
-                    android:text="000-0000"
-                    android:inputType="textCapCharacters"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -150,6 +128,29 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textPlaca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ingresar Placa"
+                app:boxBackgroundMode="outline"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="15dp"
+                app:boxCornerRadiusTopEnd="15dp"
+                app:endIconMode="clear_text"
+                android:layout_marginBottom="5sp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_Placa"
+                    android:textSize="12sp"
+                    android:text="000-0000"
+                    android:inputType="textCapCharacters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -200,7 +201,7 @@
                         android:layout_marginStart="5sp"
                         android:layout_marginEnd="5sp"
                         android:textStyle="bold"
-                        android:textSize="12sp"/>
+                        android:textSize="11sp"/>
 
                     <ImageView
                         android:layout_width="25dp"
@@ -211,6 +212,35 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/btnLimpiarPunt"
+                    android:layout_width="200sp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="5sp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/gris"
+                    android:background="@drawable/input_border"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    app:cornerRadius="10sp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Limpiar"
+                        android:fontFamily="@font/nunito_extrabold"
+                        android:textAllCaps="true"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5sp"
+                        android:layout_marginEnd="5sp"
+                        android:textStyle="bold"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

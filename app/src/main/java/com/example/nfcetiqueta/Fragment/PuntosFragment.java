@@ -83,7 +83,7 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
 
     Button btnconsultar;
 
-    LinearLayout btnGuardar;
+    LinearLayout btnGuardar,btnLimpiarPunt;
 
     ProductoPuntoAdapter productoPuntoAdapter;
     LRegistroPuntosAdapter lRegistroPuntosAdapter;
@@ -113,6 +113,7 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
 
         btnGuardar        = view.findViewById(R.id.btnGuardar);
         btnconsultar      = view.findViewById(R.id.buscarDatoCliente);
+        btnLimpiarPunt    = view.findViewById(R.id.btnLimpiarPunt);
 
         alertaNFC         = view.findViewById(R.id.textNFC);
         alertPlaca        = view.findViewById(R.id.textPlaca);
@@ -126,6 +127,27 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
 
         btnGuardar.setEnabled(true);
         btnGuardar.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorSuccess));
+
+        /**
+         *
+         */
+        btnLimpiarPunt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputNFC.getText().clear();
+                inputPlaca.setText("000-0000");
+                inputRucDni.getText().clear();
+                inputRazonSocial.getText().clear();
+
+                inputRucDni.setEnabled(true);
+                inputRazonSocial.setEnabled(true);
+
+                alertRucDni.setBoxBackgroundColorResource(R.color.white);
+                alertRazonSocial.setBoxBackgroundColorResource(R.color.white);
+
+                productoPuntoAdapter.clearSelections();
+            }
+        });
 
         /**
          *  Iniciar proceso de detector NFC
@@ -262,7 +284,9 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
         }
         btnGuardar.setEnabled(true);
         btnGuardar.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colorSuccess));
-        limpiarCampos();
+        if(GlobalInfo.getsettingDescuentoRFID10 != 0){
+            limpiarCampos();
+        }
     }
 
 
@@ -292,7 +316,9 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
             btnGuardar.setEnabled(false);
             btnGuardar.setBackgroundTintList(ContextCompat.getColorStateList(getContext(), R.color.colornew));
             Toast.makeText(getContext(), "El cliente está inactivo y no puede realizar operaciones.", Toast.LENGTH_SHORT).show();
-            limpiarCampos();
+            if(GlobalInfo.getsettingDescuentoRFID10 != 0){
+                limpiarCampos();
+            }
             return;
 
         } else {
@@ -480,6 +506,12 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
         inputRucDni.getText().clear();
         inputRazonSocial.getText().clear();
 
+        alertRucDni.setBoxBackgroundColorResource(R.color.white);
+        alertRazonSocial.setBoxBackgroundColorResource(R.color.white);
+
+        inputRucDni.setEnabled(true);
+        inputRazonSocial.setEnabled(true);
+
         productoPuntoAdapter.clearSelections();
 
         findCliente(GlobalInfo.getRFIDPuntos10, GlobalInfo.getclienteId10, GlobalInfo.getGetIdCompany10);
@@ -549,6 +581,10 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
 
                     inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
 
+                    if(GlobalInfo.getsettingDescuentoRFID10 == 0){
+                        inputNFC.setText(id);
+                    }
+
                 }catch (Exception ex){
                     Toast.makeText(getContext(),ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -585,6 +621,10 @@ public class PuntosFragment extends Fragment implements NfcAdapter.ReaderCallbac
                     GlobalInfo.getclienteRZ10 =  GlobalInfo.getclienteRZ10.replace("?","’");
 
                     inputRazonSocial.setText(GlobalInfo.getclienteRZ10);
+
+                    if(GlobalInfo.getsettingDescuentoRFID10 == 0){
+                        inputNFC.setText(id);
+                    }
 
 
                 }catch (Exception ex){

@@ -36,13 +36,19 @@ public class GlobalInfo {
     public static String  getAddressCompany10;
 
     /**
+     * Setting
+     */
+    public static Integer getsettingDescuentoRFID10;
+
+    /**
      * Datos del Campo User - Usuario
      */
     public static String  getuserID10;
     public static String  getuserName10;
     public static String  getuserPass10;
     public static Boolean getuserLocked10;
-    public static Boolean getuserCancelar10;
+    public static Boolean getuserSuper10;
+    public static Boolean getuserAfiliar10;
 
     /**
      * Datos del Cliente RUC-DNI
@@ -75,6 +81,10 @@ public class GlobalInfo {
     //public static final String BASE_URL = "http://192.168.1.227:8081/";
     //public static final String BASE_URL = "http://192.168.1.11:8081/";
     //public static final String BASE_URL = "http://192.168.1.14:8081/";
+   // public static final String BASE_URL = "http://192.168.18.20:8081/";
+  //  public static final String BASE_URL = "http://192.168.18.31:8081/";
+    //public static final String BASE_URL = "http://192.168.68.106:8082/";
+    //public static final String BASE_URL = "http://192.168.42.245:8081/";
     public static final String BASE_URL = "http://192.168.1.245:8081/";
     //public static final String BASE_URL = "http://192.168.18.43:8081/";
     //public static final String BASE_URL = "http://192.168.18.33:8081/";

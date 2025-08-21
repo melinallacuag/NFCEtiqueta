@@ -5,6 +5,7 @@ import com.example.nfcetiqueta.WebApiSVEN.Models.LClientePuntos;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LClientes;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LCompany;
 import com.example.nfcetiqueta.WebApiSVEN.Models.LProductos;
+import com.example.nfcetiqueta.WebApiSVEN.Models.Setting;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoCliente;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoDescuento;
 import com.example.nfcetiqueta.WebApiSVEN.Models.TipoRango;
@@ -156,4 +157,10 @@ public interface APIService {
     @POST("api/ClientePuntos/Eliminar2/{RFID}/{ClienteID}/{CompanyID}/{UserID}")
     Call<LClientePuntos> postClientePuntosEliminado2(@Path("RFID") String RFID,@Path("ClienteID") String ClienteID,@Path("CompanyID") Integer CompanyID,@Path("UserID") Integer UserID);
 
+    /**
+     * @Setting
+     */
+
+    @GET("api/setting/listado/{companyID}")
+    Call<List<Setting>> findSetting(@Path("companyID") Integer companyID);
 }
